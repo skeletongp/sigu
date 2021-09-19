@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
     public $count, $order, $direction, $role;
-    public function __construct($count = 10, $order = 'name', $direction = "asc")
+    public function __construct($count = 12, $order = 'name', $direction = "asc")
     {
         $this->middleware(['role:admin'])->except('login', 'logout', 'log', 'index','show', 'api_users');
         $this->count ? '' : $this->count = $count;

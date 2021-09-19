@@ -4,8 +4,8 @@ var __webpack_exports__ = {};
   !*** ./resources/js/custom.js ***!
   \********************************/
 $("document").ready(function () {
-  $("#togglePassoword").click(function () {
-    $("#togglePassoword").toggleClass("fa-eye fa-eye-slash text-blue-400 text-red-400");
+  $("#togglePassword").click(function () {
+    $("#togglePassword").toggleClass("fa-eye fa-eye-slash text-blue-400 text-red-400");
 
     if ($("#password").prop("type") == "password") {
       $("#password").prop("type", "text");

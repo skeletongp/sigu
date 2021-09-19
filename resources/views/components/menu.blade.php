@@ -43,6 +43,7 @@
                     <x-dropdown-link href="{{ route('users.index') }}">Lista de Usuarios</x-dropdown-link>
                     @endhasanyrole
                     @hasanyrole('admin|support')
+                    <x-dropdown-link href="{{ route('users.index') }}">Gestionar Carreras</x-dropdown-link>
                     <x-dropdown-link href="{{ route('users.index') }}">Gestionar Asignaturas</x-dropdown-link>
                     @endhasanyrole
                     @hasanyrole('student|teacher')

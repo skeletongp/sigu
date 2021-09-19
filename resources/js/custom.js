@@ -1,6 +1,6 @@
 $("document").ready(function () {
-    $("#togglePassoword").click(function () {
-        $("#togglePassoword").toggleClass(
+    $("#togglePassword").click(function () {
+        $("#togglePassword").toggleClass(
             "fa-eye fa-eye-slash text-blue-400 text-red-400"
         );
         if ($("#password").prop("type") == "password") {

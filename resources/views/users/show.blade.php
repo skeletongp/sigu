@@ -1,5 +1,5 @@
 <x-app>
-    <div class="bg-white p-4 sm:w-1/2 mx-auto relative">
+    <div class="bg-white p-4 lg:max-w-3xl mx-auto relative">
         <div class="sm:grid grid-cols-6 gap-6 h-72 sm:h-60 ">
             <div class="sm:col-span-2 flex flex-col items-center justify-center">
                 <div class="w-48 h-48 rounded-full bg-cover bg-center bg-no-repeat"

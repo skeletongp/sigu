@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\CareerController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,7 @@ Route::get('/', function () {
 
 //Rutas de usuarios
 Route::resource('users', UserController::class)->middleware(['auth'])->names('users');
+Route::resource('careers', CareerController::class)->middleware(['auth'])->names('careers');
 Route::get('/auth/login',[UserController::class,'log'])->name('users.log');
 Route::post('/auth/login',[UserController::class,'login'])->name('users.login');
 Route::get('/auth/logout',[UserController::class,'logout'])->name('users.logout');

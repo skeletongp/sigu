@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Models\Career;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,39 +14,34 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
     public $count, $order, $direction, $role;
-    public function __construct($count = 12, $order = 'name', $direction = "asc")
+    public function __construct()
     {
-        $this->middleware(['role:admin'])->except('login', 'logout', 'log', 'index','show', 'api_users');
-        $this->count ? '' : $this->count = $count;
-        $this->order = $order;
-        $this->direction = $direction;
+        $this->middleware(['role:admin'])->except('login', 'logout', 'log', 'index', 'show', 'api_users');
     }
     public function index()
     {
-
-        request('count') ? $this->count = request('count') : '';
-        request('order') ? $this->order = request('order') : '';
-        //Dir true=asc; dir false=desc
-        request('dir') == true ? $this->direction = 'desc' : $this->direction = 'asc';
-        request('r') ? $this->role = request('r') : '';
+        request('r') ? $this->role = request('r') : $this->role = [];
         $search = " ";
         request('q') ? $search = request('q') : '';
-        Auth::user()->hasRole('admin') ? $this->role = request('r') : $this->role = 'student';
-        $users =   User::isRole($this->role)->search($search)->orderBy($this->order, $this->direction)->paginate($this->count);
+        if (request('r')) {
+            Auth::user()->hasRole('admin') ? $this->role = request('r') : $this->role = 'student';
+        }
+        $users =   User::isRole($this->role)->search($search)
+            ->paginate(10)->appends(request()->query());
         return view('users.index')->with(['users' => $users, 'role' => $this->role]);
     }
 
 
     public function create()
     {
-        
-        return view('users.create');
+        $careers = Career::get();
+        return view('users.create')->with(['careers' => $careers]);
     }
 
 
     public function store(UserRequest $request)
     {
-        
+
         $user = User::create($request->all());
         $user->password = bcrypt($user->id);
         $user->email = $user->id . '@' . substr($request->role, 0, 2) . '.sigu.edu.do';
@@ -62,17 +58,18 @@ class UserController extends Controller
         request()->request->add($user->getOriginal());
 
         request()->request->add(['role' => $user->roles->pluck('name')[0]]);
-        return view('users.show')->with(['user' => $user]);
+        return view('users.show')->with(['user' => $user,]);
     }
 
 
     public function edit($slug)
     {
         $user = User::where('slug', '=', $slug)->first();
+        $careers = Career::get();
         request()->request->add($user->getOriginal());
 
         request()->request->add(['role' => $user->roles->pluck('name')[0]]);
-        return view('users.edit')->with(['user' => $user]);
+        return view('users.edit')->with(['user' => $user, 'careers' => $careers]);
     }
 
 
@@ -89,8 +86,11 @@ class UserController extends Controller
         $user->fullname = $request->name . ' ' . $request->lastname;
         $user->slug = Str::slug($user->fullname, '-');
         $user->email = $user->id . '@' . substr($request->role, 0, 2) . '.sigu.edu.do';
+        $request->role == 'student' ? $user->career_id = $request->career_id : $user->career_id = null;
         $user->save();
-        $user->syncRoles([$request->role]);
+        if ($request->role) {
+            $user->syncRoles([$request->role]);
+        }
         return redirect()->route('users.show', $user);
     }
 
@@ -109,10 +109,10 @@ class UserController extends Controller
 
     public function api_users(Request $request)
     {
-        $users=User::select("name")
-        ->where("name","LIKE","%{$request->query}%")
-        ->get();
-       return response()->json($users);
+        $users = User::select("name")
+            ->where("name", "LIKE", "%{$request->query}%")
+            ->get();
+        return response()->json($users);
     }
 
     //Functions Auth
@@ -151,9 +151,4 @@ class UserController extends Controller
         }
         return false;
     }
-
-   
-
-
-
 }

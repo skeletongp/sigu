@@ -40,7 +40,7 @@
 </head>
 
 <body class="font-sans antialiased h-screen bg-white bg-cover bg-no-repeat bg-fixed"
-    style="background-image: url({{ isset($bg) ? $bg : 'https://www.freeppt7.com/uploads/180930/1-1P930152220409.jpg' }})">
+    style="background-image: url({{ isset($bg) ? $bg : 'https://p0.pxfuel.com/preview/187/633/72/5be997aec83a2.jpg' }})">
     @php
         date_default_timezone_set('America/Santo_Domingo');
         // Unix
@@ -68,32 +68,31 @@
         @endif
 
         <!-- Cuerpo de la página -->
-        <main class="" style=" max-height: 100vh !important; min-height:100vh" id="main">
+        <main class="lg:pt-16" style=" max-height: 100vh !important; min-height:100vh " id=" main">
 
-            <div class=" w-screen overflow-hidden">
-                <div class=" max-w-screen lg:pl-8   py-16 overflow-y-auto" style="height: 100vh; max-height:100vh">
-                    <div class=" sm:rounded-lg max-w-7xl mx-auto py-4 ">
-
-
-                        {{ $slot }}
+                <div class=" w-screen py-9 lg:py-0 sm:px-6 flex items-center overflow-y-auto "
+                    >
+                    <div class=" w-screen  sm:rounded-lg  flex items-start space-x-3  mr-auto py-4 relative">
+                        <div class="w-full bg-white" style="min-height: 80vh">
+                            {{ $slot }}
+                        </div>
                         @if (isset($lateral))
-                            <div class="hidden xl:flex fixed left-0 top-0 bg-second-100 sm:grid sm:grid-cols-6 w-72 max-h-screen"
-                                style="min-height: 100vh" id="lateral">
+                            <div class="hidden fixed right-2  rounded-xl  bg-white shadow-xl xl:flex w-72 max-h-screen"
+                                style="min-height: 60vh;  margin-bottom:20vh" id="lateral">
 
                                 {{ $lateral }}
                             </div>
-                            <div class="fixed bottom-4 z-40 xl:hidden cursor-pointer hover:text-blue-400" id="rowLeft"> 
+                            <div class="fixed bottom-4 left-3 z-40  cursor-pointer hover:text-blue-400"
+                                id="rowLeft">
                                 <div class=" w-12 h-12 rounded-full flex items-center justify-center bg-white">
-                                    <span class=" fas fa-angle-right text-4xl  "></span>
+                                    <span class=" fas fa-ellipsis-h text-4xl  "></span>
                                 </div>
-                                
-                            </div>
-                        
-                        @endif
 
+                            </div>
+
+                        @endif
                     </div>
                 </div>
-            </div>
         </main>
     </div>
 
@@ -103,8 +102,8 @@
     <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 
 </body>
-<footer class="bg-main-100 fixed bottom-0 w-full h-10 z-20">
-    <div class="flex justify-between px-8 max-w-7xl mx-auto items-center">
+<footer class="bg-main-100 fixed bottom-0 w-full h-10 z-20 flex items-center">
+    <div class="flex justify-between px-8 max-w-7xl w-full mx-auto items-center text-white font-bold">
         <span>@Ismael Contreras, 2021</span>
         <span>SIGU</span>
     </div>

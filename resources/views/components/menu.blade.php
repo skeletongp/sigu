@@ -1,5 +1,5 @@
 <div>
-    <div class="bg-second-100 shadow-xl  py-2 w-full h-12 fixed top-0  flex justify-between z-50">
+    <div class="bg-second-100  py-2 w-full h-12 fixed top-0  flex justify-between z-50">
         <nav class="max-w-7xl w-full flex items-center justify-between mx-auto h-full px-4">
             <div class="hidden sm:flex justify-between space-x-3">
                 <x-nav-link href="{{route('welcome')}}" class="text-xl cursor-pointer text-gray-50 " :active="request()->routeIs('users.index')">Home
@@ -43,7 +43,7 @@
                     <x-dropdown-link href="{{ route('users.index') }}">Lista de Usuarios</x-dropdown-link>
                     @endhasanyrole
                     @hasanyrole('admin|support')
-                    <x-dropdown-link href="{{ route('users.index') }}">Gestionar Carreras</x-dropdown-link>
+                    <x-dropdown-link href="{{ route('careers.index') }}">Gestionar Carreras</x-dropdown-link>
                     <x-dropdown-link href="{{ route('users.index') }}">Gestionar Asignaturas</x-dropdown-link>
                     @endhasanyrole
                     @hasanyrole('student|teacher')

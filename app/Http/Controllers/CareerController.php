@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CareerRequest;
 use App\Models\Career;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,8 @@ class CareerController extends Controller
      */
     public function index()
     {
-        //
+        $careers = Career::searcH(request('q'))->orderby('name')->paginate(10);
+        return view('careers.index')->with(['careers'=>$careers]);
     }
 
     /**
@@ -24,18 +26,14 @@ class CareerController extends Controller
      */
     public function create()
     {
-        //
+        return view('careers.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    
+    public function store(CareerRequest $request)
     {
-        //
+        Career::create($request->all());
+        return redirect()->route('careers.index');
     }
 
     /**

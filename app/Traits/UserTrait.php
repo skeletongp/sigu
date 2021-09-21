@@ -11,6 +11,7 @@ trait UserTrait
     {
         $roleable=collect($this->roleable);
         if(empty($role) || !$roleable->contains($role)){
+
             return;
         }
         if ($role=='student' && Auth::user()->hasRole('student')) {

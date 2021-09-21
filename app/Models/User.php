@@ -81,4 +81,11 @@ class User extends Authenticatable
     {
         return date_diff(now(), date_create($this->birthday))->y;
     }
+    public function total($rol="")
+    {
+        if ($rol=="") {
+            return User::get()->count();
+        }
+        return User::isRole($rol)->get()->count();
+    }
 }

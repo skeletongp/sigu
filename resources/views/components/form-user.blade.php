@@ -47,11 +47,22 @@
                 <x-input type="hidden" class="hidden" id="photo" name="photo"
                     value="{{ old('photo', request('photo')) }}" />
             </div>
+            @if (request('role')=='student')
+            <div class="sm:w-1/2">
+                <x-label class="text-lg" for="career"> Carrera </x-label>
+                <x-select name="career_id" id="career">
+                    @foreach ($careers as $career)
+                        <option value="{{$career->id}}" {{$career->id==request('career_id')?'selected':''}}>{{$career->name}}</option>
+                    @endforeach
+                </x-select>
+            </div>
+            @else
             <div class="sm:w-1/2">
                 <x-label class="text-lg" for="img"> ... </x-label>
                 <x-input disabled class="w-full" type="text" id="img"
                     value="{{ old('photo', request('photo')) }}" />
             </div>
+            @endif
         </div>
         <div class="sm:flex items-end  space-y-2 sm:space-y-0 space-x-0 sm:space-x-2  p-1 w-full">
             <div class="sm:w-1/2">

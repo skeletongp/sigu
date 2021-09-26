@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('api/upload', [ApiController::class, 'uploadPhoto'])->name('api.upload');
 Route::get('api/users',[UserController::class,'api_users'])->name('api.users');
+Route::put('api/darkmode',[UserController::class,'darkmode'])->name('api.darkmode');

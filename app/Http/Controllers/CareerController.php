@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CareerRequest;
 use App\Models\Career;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CareerController extends Controller
@@ -36,48 +37,31 @@ class CareerController extends Controller
         return redirect()->route('careers.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Career  $career
-     * @return \Illuminate\Http\Response
-     */
     public function show(Career $career)
     {
-        //
+        $users=User::where('career_id','=',$career->id)->paginate(9);
+        $subjects=$career->subjects;
+        return view('careers.show')->with(['users'=>$users, 'subjects'=>$subjects]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Career  $career
-     * @return \Illuminate\Http\Response
-     */
+   
     public function edit(Career $career)
     {
-        //
+        
+        return view('careers.edit')->with(['career'=>$career]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Career  $career
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Career $career)
+    
+    public function update(CareerRequest $request, Career $career)
     {
-        //
+        $career->update($request->all());
+        return redirect()->route('careers.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Career  $career
-     * @return \Illuminate\Http\Response
-     */
+   
     public function destroy(Career $career)
     {
-        //
+        $career->delete();
+        return redirect()->route('careers.index');
     }
 }

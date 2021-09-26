@@ -21,9 +21,9 @@ class CareerRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|string|max:40|unique:careers,name',
-            'slug'=>'required|string|max:45|unique:careers,slug',
-            'code'=>'required|string|max:4|unique:careers,code',
+            'name'=>'required|string|max:40|unique:careers,name,'.$this->id,
+            'slug'=>'required|string|max:45|unique:careers,slug,'.$this->id,
+            'code'=>'required|string|max:4|unique:careers,code,'.$this->id,
         ];
     }
 }

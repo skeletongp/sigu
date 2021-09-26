@@ -65,7 +65,7 @@ class User extends Authenticatable
 
     public function career()
     {
-        return $this->belongsTo(Career::class);
+        return $this->belongsTo(Career::class)->withTrashed();
     }
     public function role()
     {
@@ -87,5 +87,9 @@ class User extends Authenticatable
             return User::get()->count();
         }
         return User::isRole($rol)->get()->count();
+    }
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'subject_user','user_id','subject_id');
     }
 }

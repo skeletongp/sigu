@@ -1,5 +1,6 @@
 <x-app>
-    <div class="bg-white rounded-xl max-w-2xl mx-auto px-4 py-8 flex flex-col items-end">
+    <div class="bg-white rounded-xl max-w-2xl mx-auto px-4 py-8 flex flex-col items-end self-center w-full
+    ">
         <h1 class="text-center font-bold uppercase mb-4 w-full">Registro de carrera</h1>
         <div class="w-full">
             <form id="formNew" action="{{route('careers.store')}}" method="POST" enctype="multipart/form-data">
@@ -9,13 +10,13 @@
                         <div class="sm:w-2/3">
                             <x-label class="text-lg" for="name">Nombre</x-label>
                             <x-input class="w-full" type="text" placeholder="Nombre de la carrera" name='name' id="name"
-                                value="{{ old('name', request('name')) }}" required/>
+                                value="{{ old('name', request('name')) }}" />
                             <x-input-error for="name" />
                         </div>
                         <div class="sm:w-1/3">
                             <x-label class="text-lg" for="code">Código</x-label>
                             <x-input class="w-full" type="text" placeholder="Ingrese el código" name='code'
-                                id="code" value="{{ old('code', request('code')) }}" required maxlength="4"/>
+                                id="code" value="{{ old('code', request('code')) }}"  maxlength="4"/>
                             <x-input-error for="code" />
                         </div>
                     </div>

@@ -13,7 +13,7 @@ class CreateCareerSubjectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('career_subjects', function (Blueprint $table) {
+        Schema::create('career_subject', function (Blueprint $table) {
             $table->id();
             $table->foreignId('career_id')->constrained();
             $table->foreignId('subject_id')->constrained();
@@ -29,6 +29,6 @@ class CreateCareerSubjectsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('career_subjects');
+        Schema::dropIfExists('career_subject');
     }
 }

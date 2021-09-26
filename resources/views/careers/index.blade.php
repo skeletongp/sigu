@@ -2,14 +2,18 @@
 $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 'student' => 'Estudiante'];
 @endphp
 <x-app>
-    <div class="w-full p-4 bg-white rounded-xl relative ">
+    <div class="w-full p-4 bg-white rounded-xl relative dark ">
         {{-- Crear nuevo usuario --}}
-        <a href="{{ route('careers.create') }}">
-            <div
-                class="fixed right-2 bottom-2 xl:right-5 xl:bottom-5 z-50 w-8 h-8 xl:w-12 xl:h-12 bg-blue-600 text-white rounded-full flex items-center justify-center        cursor-pointer hover:bg-white hover:text-gray-900">
-                <span class="fas fa-plus xl:text-3xl"></span>
-            </div>
-        </a>
+        <div class=" bottom-2 right-2 xl:right-5 xl:bottom-5 z-50 w-max" id="btnAdd">
+            <a href="{{ route('careers.create') }}">
+                <div
+                    class=" w-max px-3 py-1 flex space-x-3 bg-blue-600 text-white rounded-full  items-center justify-center        cursor-pointer hover:bg-gray-900 ">
+                    <span class="fas fa-plus "></span>
+                    <input type="text" class="hidden w-full cursor-pointer bg-transparent outline-none border-none font-bold text-white " id="spanText" readonly value="Nueva carrera"/>
+                </div>
+            </a>
+        </div>
+       
 
         {{-- Form de búsqueda y filtrado --}}
         <form action="{{ route('careers.index') }}" class="m-3 xl:mt-5 mx-auto ">
@@ -26,7 +30,7 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
                         </x-slot>
                     </x-input>
                 </div>
-              
+
             </div>
         </form>
         @if ($careers->count())
@@ -39,10 +43,17 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
                 <ul class="grid grid-cols-1 sm:grid-cols-2 mx-auto   gap-3  ">
 
                     @foreach ($careers as $career)
-                        <x-list title="{{ $career->name }}" image="https://cdn3.iconfinder.com/data/icons/ballicons-reloaded-vol-1/512/icon-13-512.png"
-                            url="{{ route('careers.show', $career) }}" subtitle="{{$career->code}}"
-                            text="nada">
-                        </x-list>
+                        <div class="p-4  rounded-xl">
+                           
+                            <x-list title="{{ $career->name }}"
+                                image="https://cdn3.iconfinder.com/data/icons/ballicons-reloaded-vol-1/512/icon-13-512.png"
+                                url="{{ route('careers.show', $career) }}"
+                                subtitle="{{ $career->code }}- {{ $career->students->count() }} estudiantes"
+                                text="nada"
+                                rDelete="{{ route('careers.destroy', $career) }}"
+                                rEdit="{{ route('careers.edit', $career) }}">
+                            </x-list>
+                        </div>
                     @endforeach
 
                 </ul>
@@ -57,7 +68,7 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
     <x-slot name="lateral">
         <div class="flex flex-col justify-center items-center w-full space-y-8">
             <h1 class="uppercase font-bold text-2xl text-center">Estadísticas de usuarios</h1>
-            
+
         </div>
     </x-slot>
 </x-app>

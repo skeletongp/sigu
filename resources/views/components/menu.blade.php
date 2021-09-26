@@ -1,28 +1,25 @@
 <div>
-    <div class="bg-second-100  py-2 w-full h-12 fixed top-0  flex justify-between z-50">
+    <div class="bg-second-100 dark:bg-gray-800  py-2 w-full h-12 fixed top-0  flex justify-between z-50">
         <nav class="max-w-7xl w-full flex items-center justify-between mx-auto h-full px-4">
             <div class="hidden sm:flex justify-between space-x-3">
                 <x-nav-link href="{{route('welcome')}}" class="text-xl cursor-pointer text-gray-50 " :active="request()->routeIs('users.index')">Home
                 </x-nav-link>
-                <x-nav-link class="text-xl cursor-pointer text-gray-50 " :active="request()->routeIs('users.index')">Materias
-                </x-nav-link>
+               
             </div>
-            <div class="sm:hidden">
-            <x-dropdown  align="left">
-                <x-slot name="trigger">
-                    <span class="fas fa-bars text-xl text-main-80"></span>
-                </x-slot>
-                <x-slot name="content">
-                    <x-responsive-nav-link href="{{ route('welcome') }}" class="text-xl cursor-pointer   "
-                        :active="request()->routeIs('users.index')">
-                        Home
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link href="{{ route('welcome') }}" class="text-xl cursor-pointer   "
-                        :active="request()->routeIs('users.index')">
-                        Carreras
-                    </x-responsive-nav-link>
-                </x-slot>
-                </x-dropdown>
+            <div class="">
+                <div class="fixed top-3 left-3 z-50">
+                    <div class="mb-3 flex items-center">
+                        <div class="relative inline-block w-10 mr-2 align-middle select-none">
+                            <input type="checkbox" name="toggle" id="toggle" class="checked:bg-blue-500 outline-none focus:outline-none right-4 checked:right-0 duration-200 ease-in absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" {{Auth::user()?(Auth::user()->darkmode=='Y'?'checked':''):''}}/>
+                                <label for="toggle" class="block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer">
+                                </label>
+                                <input type="hidden" name="user" id="user" value="{{Auth::user()->id}}">
+                            </div>
+                            <span class="text-white font-medium">
+                                Darkmode
+                            </span>
+                        </div>
+                </div>
             </div>
             <x-dropdown>
                 <x-slot name="trigger">
@@ -44,7 +41,7 @@
                     @endhasanyrole
                     @hasanyrole('admin|support')
                     <x-dropdown-link href="{{ route('careers.index') }}">Gestionar Carreras</x-dropdown-link>
-                    <x-dropdown-link href="{{ route('users.index') }}">Gestionar Asignaturas</x-dropdown-link>
+                    <x-dropdown-link href="{{ route('subjects.index') }}">Gestionar Asignaturas</x-dropdown-link>
                     @endhasanyrole
                     @hasanyrole('student|teacher')
                     <x-dropdown-link href="{{ route('users.logout') }}">Mis Materias</x-dropdown-link>

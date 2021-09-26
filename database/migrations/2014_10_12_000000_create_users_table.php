@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('lastname', 50);
             $table->string('fullname', 100)->nullable();
             $table->string('slug')->nullable();
+            $table->enum('darkmode',['Y','N'])->default('N');
             $table->string('photo')->nullable();
             $table->string('email')->nullable()->unique();
             $table->date('birthday');

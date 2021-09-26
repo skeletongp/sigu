@@ -2,84 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SubjectRequest;
+use App\Models\Career;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $subjects = Subject::search(request('q'))->orderby('name')->paginate(10);
+        return view('subjects.index')->with(['subjects' => $subjects]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        $careers = Career::orderby('name')->get();
+        return view('subjects.create')->with(['careers' => $careers]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(SubjectRequest $request)
     {
-        //
+        $subject = Subject::create($request->except('careers'));
+        if ($request->careers) {
+            foreach ($request->careers as $career) {
+                $subject->careers()->syncWithoutDetaching($career);
+            }
+        }
+        return redirect()->route('subjects.show',$subject);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Subject  $subject
-     * @return \Illuminate\Http\Response
-     */
     public function show(Subject $subject)
     {
-        //
+        $careers = $subject->careers()->search(request('q'))->paginate(6);
+        return view('subjects.show')->with(['careers' => $careers, 'subject' => $subject]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Subject  $subject
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Subject $subject)
     {
-        //
+        $careers = Career::orderby('name')->get();
+        return view('subjects.edit')->with(['careers' => $careers, 'subject' => $subject]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Subject  $subject
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Subject $subject)
+
+    public function update(SubjectRequest $request, Subject $subject)
     {
-        //
+        $subject->update($request->except('careers'));
+        if ($request->careers) {
+            foreach ($request->careers as $career) {
+                $subject->careers()->syncWithoutDetaching($career);
+            }
+        }
+        return redirect()->route('subjects.show',$subject);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Subject  $subject
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Subject $subject)
     {
         //
+    }
+    public function detach(Career $career, Subject $subject)
+    {
+        $subject->careers()->detach($career);
+        return redirect()->route('subjects.show',$subject);
     }
 }

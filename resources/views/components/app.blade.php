@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="{{
+    Auth::user()?(Auth::user()->darkmode=='Y'?'dark':''):''
+}}">
 @props(['bg'])
 
 <head>
@@ -39,8 +41,8 @@
 
 </head>
 
-<body class="font-sans antialiased h-screen bg-white bg-cover bg-no-repeat bg-fixed"
-    style="background-image: url({{ isset($bg) ? $bg : 'https://p0.pxfuel.com/preview/187/633/72/5be997aec83a2.jpg' }})">
+<body class="font-sans antialiased h-screen bg-white dark:bg-gray-900 dark:text-white  bg-cover bg-no-repeat bg-fixed"
+    style="background-image: url({{ isset($bg) ? $bg : '' }})">
     @php
         date_default_timezone_set('America/Santo_Domingo');
         // Unix
@@ -73,18 +75,18 @@
                 <div class=" w-screen py-9 lg:py-0 sm:px-6 flex items-center overflow-y-auto "
                     >
                     <div class=" w-screen  sm:rounded-lg  flex items-start space-x-3  mr-auto py-4 relative">
-                        <div class="w-full bg-white" style="min-height: 80vh">
+                        <div class="w-full bg-white dark:bg-gray-900 flex flex-col justify-center" style="min-height: 80vh">
                             {{ $slot }}
                         </div>
                         @if (isset($lateral))
-                            <div class="hidden fixed right-2  rounded-xl  bg-white shadow-xl xl:flex w-72 max-h-screen"
+                            <div class="hidden fixed right-2  rounded-xl  bg-white shadow-xl w-72 max-h-screen"
                                 style="min-height: 60vh;  margin-bottom:20vh" id="lateral">
 
                                 {{ $lateral }}
                             </div>
-                            <div class="fixed bottom-4 left-3 z-40  cursor-pointer hover:text-blue-400"
+                            <div class="fixed bottom-4 left-3 z-50  cursor-pointer hover:text-blue-400"
                                 id="rowLeft">
-                                <div class=" w-12 h-12 rounded-full flex items-center justify-center bg-white">
+                                <div class=" w-12 h-12 rounded-full flex items-center justify-center bg-white dark:text-black">
                                     <span class=" fas fa-ellipsis-h text-4xl  "></span>
                                 </div>
 
@@ -102,7 +104,7 @@
     <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 
 </body>
-<footer class="bg-main-100 fixed bottom-0 w-full h-10 z-20 flex items-center">
+<footer class="bg-main-100 bg-gray-8    00 fixed bottom-0 w-full h-10 z-20 flex items-center">
     <div class="flex justify-between px-8 max-w-7xl w-full mx-auto items-center text-white font-bold">
         <span>@Ismael Contreras, 2021</span>
         <span>SIGU</span>

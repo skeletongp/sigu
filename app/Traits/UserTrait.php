@@ -21,6 +21,12 @@ trait UserTrait
        return Role::where('name',$role)->first()->users();
 
     }  
+public function scopeCareer(Builder $query, $career )
+{
+    
+    if (!$career || !intval($career)>0) {
+       return;
+    }
+    return $query->where('career_id','=',$career);
 }
-
-?>
+}

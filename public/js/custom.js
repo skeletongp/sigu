@@ -61,6 +61,46 @@ $("document").ready(function () {
   $('#rowLeft').click(function () {
     $('#lateral').toggle('', false);
   });
+  $('#role').change(function () {
+    data = $(this).val();
+
+    if (data == 'student') {
+      $('#divCareer').show(300, 'linear');
+      $('#divImage').hide(300, 'linear');
+    } else {
+      $('#divCareer').hide(300, 'linear');
+      $('#divImage').show(300, 'linear');
+    }
+  });
+  $('#btnAdd').hover(function () {
+    $('#spanText').toggle('', false);
+  });
+  $('#toggle').change(function () {
+    var status;
+
+    if ($(this).is(":checked")) {
+      status = 'Y';
+    } else if ($(this).is(":not(:checked)")) {
+      status = 'N';
+    }
+
+    user = $('#user').val();
+    console.log(user);
+    data = new FormData();
+    data.append("mode", status);
+    $.ajax({
+      url: "/api/darkmode?mode=".concat(status, "&user=").concat(user),
+      data: data,
+      type: 'PUT',
+      processData: false,
+      contentType: false
+    }).then(function (result) {
+      location.reload();
+    })["catch"](function (err) {
+      console.log(err);
+    });
+    ;
+  });
 });
 /******/ })()
 ;

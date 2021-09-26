@@ -7,41 +7,30 @@ use App\Models\Career;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
-use Illuminate\Support\Str;
+use App\Http\Methods\userMethods;
+use App\Models\Subject;
 
 class UserController extends Controller
 {
-    public $count, $order, $direction, $role;
+    public  $role, $methods;
     public function __construct()
     {
-        $this->middleware(['role:admin'])->except('login', 'logout', 'log', 'index', 'show', 'api_users');
+        $this->methods = new userMethods();
+        $this->middleware(['role:admin'])->except('login', 'logout', 'log', 'index', 'show', 'api_users', 'darkmode');
     }
     public function index()
     {
         request('r') ? $this->role = request('r') : $this->role = [];
-        $search = " ";
-        request('q') ? $search = request('q') : '';
-        if (request('r')) {
-            Auth::user()->hasRole('admin') ? $this->role = request('r') : $this->role = 'student';
-        }
-        $users =   User::isRole($this->role)->search($search)
-            ->paginate(10)->appends(request()->query());
+        $users = $this->methods->users($this->role);
         return view('users.index')->with(['users' => $users, 'role' => $this->role]);
     }
-
-
     public function create()
     {
         $careers = Career::get();
         return view('users.create')->with(['careers' => $careers]);
     }
-
-
     public function store(UserRequest $request)
     {
-
         $user = User::create($request->all());
         $user->password = bcrypt($user->id);
         $user->email = $user->id . '@' . substr($request->role, 0, 2) . '.sigu.edu.do';
@@ -50,61 +39,65 @@ class UserController extends Controller
         $user->assignRole($request->role);
         return redirect()->route('users.show', $user);
     }
-
-
     public function show($slug)
     {
         $user = User::where('slug', '=', $slug)->first();
         request()->request->add($user->getOriginal());
-
+        $career_subjects=null;
+       if ($user->careers) {
+        $career_subjects = $user->career->subjects;
+        if ( $career_subjects->count()==$user->subjects()->count()) {
+            $career_subjects=null;
+        }
+       }
+       
         request()->request->add(['role' => $user->roles->pluck('name')[0]]);
-        return view('users.show')->with(['user' => $user,]);
+        return view('users.show')->with(['user' => $user, 'career_subjects' => $career_subjects]);
     }
-
-
     public function edit($slug)
     {
         $user = User::where('slug', '=', $slug)->first();
         $careers = Career::get();
         request()->request->add($user->getOriginal());
-
         request()->request->add(['role' => $user->roles->pluck('name')[0]]);
         return view('users.edit')->with(['user' => $user, 'careers' => $careers]);
     }
-
-
     public function update(UserRequest $request, $slug)
     {
         $user = User::where('slug', '=', $slug)->first();
-        $user->name = $request->name;
-        $user->lastname = $request->lastname;
-        $user->birthday = $request->birthday;
-        if (!str_contains($request->photo, '/')) {
-            $user->photo = '/images/' . $request->photo;
-        }
-        $request->password ? $user->password = $request->password : '';
-        $user->fullname = $request->name . ' ' . $request->lastname;
-        $user->slug = Str::slug($user->fullname, '-');
-        $user->email = $user->id . '@' . substr($request->role, 0, 2) . '.sigu.edu.do';
-        $request->role == 'student' ? $user->career_id = $request->career_id : $user->career_id = null;
-        $user->save();
+        $user->update($this->methods->update($request));
         if ($request->role) {
             $user->syncRoles([$request->role]);
+            $user->email = $user->id . '@' . substr($user->getRoleNames()[0], 0, 2) . '.sigu.edu.do';
+        }
+        $user->save();
+        return redirect()->route('users.show', $slug);
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return redirect()->route('users.index');
+    }
+
+    public function select(Request $request,  $user)
+    {
+        $user = User::where('slug', '=', $user)->first();
+
+        if ($request->subjects) {
+            foreach ($request->subjects as $subject) {
+                $user->subjects()->attach($subject);
+            }
         }
         return redirect()->route('users.show', $user);
     }
 
-    public function destroy($id)
+    public function unselect($subject,  $user)
     {
-        return $id;
-    }
-
-    public function delete($user)
-    {
-        $user = User::where('slug', $user)->first();
-        $user->deleted_at = date('Y-m-d H:i:s');
-        $user->save();
-        return redirect()->back();
+        $user = User::where('slug', '=', $user)->first();
+        $subject = Subject::where('slug', '=', $subject)->first();
+        $user->subjects()->detach($subject);
+        return redirect()->route('users.show', $user);
     }
 
     public function api_users(Request $request)
@@ -113,6 +106,14 @@ class UserController extends Controller
             ->where("name", "LIKE", "%{$request->query}%")
             ->get();
         return response()->json($users);
+    }
+
+    public function darkmode(Request $request)
+    {
+        $user=User::find($request->user);
+        $user->darkmode=$request->mode;
+        $user->save();
+      return $request->all();
     }
 
     //Functions Auth

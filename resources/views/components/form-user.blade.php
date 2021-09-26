@@ -25,14 +25,14 @@
                     <x-input-error for="password" />
                 </div>
                 <div class="sm:w-1/2">
-                    <x-label class="text-lg" for="password_confirmation">Apellido</x-label>
+                    <x-label class="text-lg" for="password_confirmation">Confirmación</x-label>
                     <x-input class="w-full" type="password" placeholder="Repita la contraseña"
                         name='password_confirmation' id="password_confirmation" />
                     <x-input-error for="password_confirmation" />
                 </div>
             </div>
         @endif
-        <div class="sm:flex  space-y-2 sm:space-y-0 space-x-0 sm:space-x-2  p-1 w-full">
+        <div class="sm:flex  space-y-2 sm:space-y-0 space-x-0 sm:space-x-2  p-1 w-full ">
 
             <div class="sm:w-1/2">
                 <x-label class="text-lg" for="lastname">Foto</x-label>
@@ -47,8 +47,8 @@
                 <x-input type="hidden" class="hidden" id="photo" name="photo"
                     value="{{ old('photo', request('photo')) }}" />
             </div>
-            @if (request('role')=='student')
-            <div class="sm:w-1/2">
+            
+            <div class="sm:w-1/2 {{request('role')=='student'?'':'hidden'}}" id="divCareer">
                 <x-label class="text-lg" for="career"> Carrera </x-label>
                 <x-select name="career_id" id="career">
                     @foreach ($careers as $career)
@@ -56,19 +56,18 @@
                     @endforeach
                 </x-select>
             </div>
-            @else
-            <div class="sm:w-1/2">
+            <div class="sm:w-1/2  {{request('role')=='student'?'hidden':''}}" id="divImage">
                 <x-label class="text-lg" for="img"> ... </x-label>
                 <x-input disabled class="w-full" type="text" id="img"
                     value="{{ old('photo', request('photo')) }}" />
             </div>
-            @endif
         </div>
         <div class="sm:flex items-end  space-y-2 sm:space-y-0 space-x-0 sm:space-x-2  p-1 w-full">
             <div class="sm:w-1/2">
                 <x-label class="text-lg" for="birthday">Fecha de Nacimiento</x-label>
                 <x-input class="w-full" type="date" name='birthday' id="birthday"
                     value="{{ old('birthday', request('birthday')) }}" />
+                    <x-input-error for="birthday" />
             </div>
             @if (Auth::user()->id != request('id'))
                 <div class="sm:w-1/2">

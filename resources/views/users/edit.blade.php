@@ -1,5 +1,5 @@
 <x-app>
-    <div class="sm:w-1/2 mx-auto bg-white p-2 sm:p-8 flex flex-col items-end">
+    <div class="sm:w-1/2 mx-auto bg-white p-2 sm:p-8 flex flex-col items-end dark:bg-gray-800">
         <div class=" w-full">
             <h1 class="text-lg font-bold text-center mt-2 mb-4">Editar Datos de Usuario</h1>
         </div>

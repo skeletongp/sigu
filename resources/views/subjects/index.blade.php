@@ -1,5 +1,5 @@
 <x-app>
-    <div class="w-full p-4 bg-white rounded-xl relative ">
+    <div class="w-full p-4 bg-white dark:bg-gray-800 rounded-xl relative max-w-6xl mx-auto">
         {{-- Crear nuevo usuario --}}
         @hasanyrole('admin|support')
         <div class=" bottom-2 right-2 xl:right-5 xl:bottom-5 z-50 w-max" id="btnAdd">
@@ -50,7 +50,7 @@
                             <x-list title="{{ $subject->name }}"
                                 image="https://cdn3.iconfinder.com/data/icons/ballicons-reloaded-vol-1/512/icon-13-512.png"
                                 url="{{ route('subjects.show', $subject) }}"
-                                subtitle="{{ $subject->code }}- {{ $subject->careers->count() }} carreras"
+                                subtitle="{{ $subject->code }}- {{ optional($subject->students)->count() }} estudiantes"
                                 text="nada" rDelete="{{ route('subjects.destroy', $subject) }}"
                                 rEdit="{{ route('subjects.edit', $subject) }}">
                             </x-list>

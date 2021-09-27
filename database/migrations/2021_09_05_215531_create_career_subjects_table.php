@@ -17,6 +17,7 @@ class CreateCareerSubjectsTable extends Migration
             $table->id();
             $table->foreignId('career_id')->constrained();
             $table->foreignId('subject_id')->constrained();
+            $table->integer('trimester');
             $table->softDeletes();
             $table->timestamps();
         });

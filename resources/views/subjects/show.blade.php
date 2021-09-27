@@ -1,5 +1,5 @@
 <x-app>
-    <div class="w-full p-4 bg-white rounded-xl relative ">
+    <div class="w-full p-4 bg-white dark:bg-gray-800 max-w-6xl mx-auto rounded-xl relative ">
        
 
         @if ($careers->count())
@@ -19,7 +19,7 @@
                             <x-list title="{{ $career->name }}"
                                 image="https://cdn3.iconfinder.com/data/icons/ballicons-reloaded-vol-1/512/icon-13-512.png"
                                 url="{{ route('users.index', ['c' => $career->id]) }}"
-                                subtitle="{{ $career->code }}- {{ $subject->students->count() }} estudiantes"
+                                subtitle="{{ $career->code }}- {{ $subject->studentsCareer($career->id)->count() }} estudiantes"
                                 text="nada" rDelete="{{ route('subjects.detach', [$career,$subject]) }}"
                                 rEdit="{{ route('careers.edit', $career) }}">
                             </x-list>

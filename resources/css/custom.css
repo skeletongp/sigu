@@ -166,3 +166,6 @@ tbody tr:nth-child(odd) {
     color: #4b3458;
 }
 
+*{
+    scroll-behavior: smooth !important;
+}

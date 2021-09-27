@@ -2,12 +2,12 @@
 $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 'student' => 'Estudiante'];
 @endphp
 <x-app>
-    <div class="w-full p-4 bg-white rounded-xl relative dark ">
+    <div class="w-full p-4 bg-white rounded-xl max-w-7xl mx-auto relative dark:bg-gray-800 ">
         {{-- Crear nuevo usuario --}}
         <div class=" bottom-2 right-2 xl:right-5 xl:bottom-5 z-50 w-max" id="btnAdd">
             <a href="{{ route('careers.create') }}">
                 <div
-                    class=" w-max px-3 py-1 flex space-x-3 bg-blue-600 text-white rounded-full  items-center justify-center        cursor-pointer hover:bg-gray-900 ">
+                    class=" w-max px-3 py-1 flex space-x-3 bg-blue-600 dark:bg-gray-300 text-white dark:text-gray-900 rounded-full  items-center justify-center        cursor-pointer hover:bg-gray-900 ">
                     <span class="fas fa-plus "></span>
                     <input type="text" class="hidden w-full cursor-pointer bg-transparent outline-none border-none font-bold text-white " id="spanText" readonly value="Nueva carrera"/>
                 </div>

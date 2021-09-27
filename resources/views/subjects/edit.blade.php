@@ -1,5 +1,5 @@
 <x-app>
-    <div class="bg-white rounded-xl max-w-2xl mx-auto px-4 py-8 flex flex-col items-end self-center w-full
+    <div class="bg-white dark:bg-gray-800 rounded-xl max-w-2xl mx-auto px-4 py-8 flex flex-col items-end self-center w-full
     ">
         <h1 class="text-center font-bold uppercase mb-4 w-full">Registro de asignatura</h1>
         <div class="w-full">
@@ -21,16 +21,6 @@
                                 id="code" value="{{ old('code', $subject->code) }}"  maxlength="4"/>
                             <x-input-error for="code" />
                         </div>
-                    </div>
-                    <div class="w-full">
-                        <x-label class="text-lg" for="careers">Carreras</x-label>
-                        <x-select class="form-multiselect" multiple name="careers[]">
-                            @foreach ($careers as $career)
-                                <option value="{{$career->id}}"
-                                    {{$subject->careers->contains($career)?'selected':''}}
-                                    >{{$career->name}}</option>
-                            @endforeach
-                        </x-select>
                     </div>
                     
                 </div>

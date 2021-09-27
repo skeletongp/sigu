@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="{{
-    Auth::user()?(Auth::user()->darkmode=='Y'?'dark':''):''
-}}">
+<html lang="es" class="{{ Auth::user() ? (Auth::user()->darkmode == 'Y' ? 'dark' : '') : '' }}">
 @props(['bg'])
 
 <head>
@@ -41,75 +39,38 @@
 
 </head>
 
-<body class="font-sans antialiased h-screen bg-white dark:bg-gray-900 dark:text-white  bg-cover bg-no-repeat bg-fixed"
+<body class="font-sans antialiased  bg-white dark:bg-gray-900 dark:text-white p-0  bg-cover bg-no-repeat bg-fixed absolute"
     style="background-image: url({{ isset($bg) ? $bg : '' }})">
     @php
         date_default_timezone_set('America/Santo_Domingo');
-        // Unix
         setlocale(LC_ALL, 'es_ES.UTF-8');
         
-    @endphp
-    <div class=" mx-auto " id="body">
-
-        @if (Auth::check())
-            <x-menu />
+    @endphp <header class="sticky top-0 z-50">
+        @if (Auth::user())
+            <x-menu></x-menu>
         @endif
+    </header>
+    <div class="h-screen  w-screen flex flex-col justify-center">
 
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header class="bg-white shadow fixed w-full top-0 left-0 " style="z-index: 60">
-                <div class="mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-                    <div class="lg:ml-56 w-full uppercase">
-                        {{ $header }}
-                    </div>
-                    {{-- Funciones del perfil --}}
-
-                </div>
-
-            </header>
-        @endif
-
-        <!-- Cuerpo de la página -->
-        <main class="lg:pt-16" style=" max-height: 100vh !important; min-height:100vh " id=" main">
-
-                <div class=" w-screen py-9 lg:py-0 sm:px-6 flex items-center overflow-y-auto "
-                    >
-                    <div class=" w-screen  sm:rounded-lg  flex items-start space-x-3  mr-auto py-4 relative">
-                        <div class="w-full bg-white dark:bg-gray-900 flex flex-col justify-center" style="min-height: 80vh">
-                            {{ $slot }}
-                        </div>
-                        @if (isset($lateral))
-                            <div class="hidden fixed right-2  rounded-xl  bg-white shadow-xl w-72 max-h-screen"
-                                style="min-height: 60vh;  margin-bottom:20vh" id="lateral">
-
-                                {{ $lateral }}
-                            </div>
-                            <div class="fixed bottom-4 left-3 z-50  cursor-pointer hover:text-blue-400"
-                                id="rowLeft">
-                                <div class=" w-12 h-12 rounded-full flex items-center justify-center bg-white dark:text-black">
-                                    <span class=" fas fa-ellipsis-h text-4xl  "></span>
-                                </div>
-
-                            </div>
-
-                        @endif
-                    </div>
-                </div>
+        <main class="relative h-full overflow-hidden  flex flex-col justify-center py-16 xl:pb-24 bg-white dark:bg-gray-800" >
+           <div class=" overflow-y-auto">
+            {{ $slot }}
+           </div>
         </main>
+
     </div>
+    <footer class="fixed bottom-0 z-50 bg-gray-100 dark:bg-gray-700 w-full">
+        @if (Auth::user())
+        <x-footer></x-footer>
+        @endif
+    </footer>
 
     @stack('modals')
     @stack('js')
     {{-- @livewireScripts --}}
     <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-
 </body>
-<footer class="bg-main-100 bg-gray-8    00 fixed bottom-0 w-full h-10 z-20 flex items-center">
-    <div class="flex justify-between px-8 max-w-7xl w-full mx-auto items-center text-white font-bold">
-        <span>@Ismael Contreras, 2021</span>
-        <span>SIGU</span>
-    </div>
-</footer>
+
 <style>
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {

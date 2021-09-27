@@ -17,6 +17,7 @@ class CreateSubjectsTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('slug');
+            $table->integer('credits');
             $table->string('code')->unique();
             $table->softDeletes();
             $table->timestamps();

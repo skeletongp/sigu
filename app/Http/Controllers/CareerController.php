@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CareerRequest;
 use App\Models\Career;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Mockery\Matcher\Subset;
 
 class CareerController extends Controller
 {
@@ -39,9 +41,9 @@ class CareerController extends Controller
 
     public function show(Career $career)
     {
-        $users=User::where('career_id','=',$career->id)->paginate(9);
+        $users=User::where('career_id','=',$career->id)->search(request('q'))->paginate(9);
         $subjects=$career->subjects;
-        return view('careers.show')->with(['users'=>$users, 'subjects'=>$subjects]);
+        return view('careers.show')->with(['users'=>$users, 'subjects'=>$subjects, 'career'=>$career]);
     }
 
    
@@ -63,5 +65,16 @@ class CareerController extends Controller
     {
         $career->delete();
         return redirect()->route('careers.index');
+    }
+
+    public function addsubject(Career $career)
+    {
+        $subjects=Subject::get();
+        return view('careers.addsubject')->with(['subjects'=>$subjects,'career'=>$career]);
+    }
+    public function storesubject(Request $request, Career $career)
+    {
+        $career->subjects()->attach($request->subject, ['trimester'=>$request->trimester]);
+        return redirect()->back();
     }
 }

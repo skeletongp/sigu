@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
         $admin->save();
         $admin->assignRole('admin');
         \App\Models\Career::factory(5)->create();
-        \App\Models\User::factory(2500)->create()->each(function ($user) {
+        \App\Models\User::factory(250)->create()->each(function ($user) {
             $num=random_int(0,419);
             $path=DB::connection('mysql2')->table('photos')->where('num', $num)->first();
             $roles = ['teacher', 'student', 'support'];

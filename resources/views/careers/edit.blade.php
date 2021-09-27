@@ -1,5 +1,5 @@
 <x-app>
-    <div class="bg-white rounded-xl max-w-2xl mx-auto px-4 py-8 flex flex-col items-end self-center w-full
+    <div class="bg-white dark:bg-gray-800 rounded-xl max-w-2xl mx-auto px-4 py-8 flex flex-col items-end self-center w-full
     ">
         <h1 class="text-center font-bold uppercase mb-4 w-full">Registro de carrera</h1>
         <div class="w-full">

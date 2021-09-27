@@ -26,12 +26,20 @@ class Subject extends Model
     {
         return "slug";
     }
+    /* Carreras que dan esta asignatura */
     public function careers()
     {
         return $this->belongsToMany(Career::class);
     }
+    /* Todos los estudiantes que toman una asignatura */
     public function students()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    /* Los estudiantes que toman una asignatura según la carrera */
+    public function studentsCareer($career)
+    {
+        return $this->belongsToMany(User::class)->withTrashed()->where('career_id','=',$career);
     }
 }

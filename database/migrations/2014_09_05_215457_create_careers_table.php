@@ -18,6 +18,7 @@ class CreateCareersTable extends Migration
             $table->string('name')->unique();
             $table->string('slug');
             $table->string('code')->unique();
+            $table->integer('trimesters');
             $table->softDeletes();
             $table->timestamps();
         });

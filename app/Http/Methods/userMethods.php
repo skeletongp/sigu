@@ -13,8 +13,9 @@ class userMethods{
         $search = " ";
         request('q') ? $search = request('q') : '';
         $career=request('c');
+        Auth::user()->hasAnyRole('admin|support') ? " " : $role = 'student';
         if (request('r')) {
-            Auth::user()->hasRole('admin') ? $role = request('r') : $role = 'student';
+            Auth::user()->hasAnyRole('admin|support') ? $role = request('r') : $role = 'student';
         }
         $users =   User::isRole($role)->career($career)->where('users.id','!=',20210001)->search($search)
             ->paginate(12)->appends(request()->query());

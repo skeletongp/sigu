@@ -44,7 +44,7 @@ class UserController extends Controller
         $user = User::where('slug', '=', $slug)->first();
         request()->request->add($user->getOriginal());
         $career_subjects=null;
-       if ($user->careers) {
+       if ($user->career) {
         $career_subjects = $user->career->subjects;
         if ( $career_subjects->count()==$user->subjects()->count()) {
             $career_subjects=null;
@@ -71,6 +71,9 @@ class UserController extends Controller
             $user->email = $user->id . '@' . substr($user->getRoleNames()[0], 0, 2) . '.sigu.edu.do';
         }
         $user->save();
+        if ($user->getRoleNames()[0]!='students') {
+            $user->subjects()->detach();
+        }
         return redirect()->route('users.show', $slug);
     }
 
@@ -83,10 +86,9 @@ class UserController extends Controller
     public function select(Request $request,  $user)
     {
         $user = User::where('slug', '=', $user)->first();
-
-        if ($request->subjects) {
-            foreach ($request->subjects as $subject) {
-                $user->subjects()->attach($subject);
+        if (request('\"subjects')) {
+            foreach (request('\"subjects') as $subject) {
+                $user->subjects()->syncWithoutDetaching($subject);
             }
         }
         return redirect()->route('users.show', $user);

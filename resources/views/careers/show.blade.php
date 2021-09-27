@@ -3,7 +3,7 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
 @endphp
 
 <x-app>
-    <div class="w-full p-4 bg-white rounded-xl relative dark:bg-gray-900 dark:text-white ">
+    <div class="w-full p-4 bg-white rounded-xl relative dark:bg-gray-800 dark:text-white max-w-7xl mx-auto">
         {{-- Crear nuevo usuario --}}
         @hasanyrole('admin|support')
         <div class=" bottom-2 right-2 xl:right-5 xl:bottom-5 z-50" >
@@ -16,16 +16,16 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
                     </div>
                 </x-slot>
                 <x-slot name="content">
-                    @foreach ($roles as $key=>$role)
-                    <x-dropdown-link class="cursor-pointer" href="{{route('users.create',['role'=>$key])}}">{{$role}}</x-dropdown-link>
-                    @endforeach
+                    
+                    <x-dropdown-link class="cursor-pointer" href="{{route('careers.create')}}">Nueva Carrera</x-dropdown-link>
+                    <x-dropdown-link class="cursor-pointer" href="{{route('careers.addsubject', $career)}}">Ver/Añadir Asignaturas</x-dropdown-link>
                 </x-slot>
             </x-dropdown>
         </div>
         @endhasanyrole
 
         {{-- Form de búsqueda y filtrado --}}
-        <form action="{{ route('users.index') }}" class="m-3 xl:mt-5 mx-auto ">
+        <form action="{{ route('careers.show', $career) }}" class="m-3 xl:mt-5 mx-auto ">
             <div class=" lg:flex lg:space-x-3 justify-center my-4 xl:w-2/3 mx-auto">
                 <div class="w-full lg:w-1/3">
                     <x-label class="text-lg dark:text-white">Buscar</x-label>
@@ -43,7 +43,7 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
             </div>
         </form>
         @if ($users->count())
-            <h1 class=" font-bold text-xl xl:text-2xl mb-2 mt-3 uppercase w-full text-center">Resgistro de usuarios
+            <h1 class=" font-bold text-xl xl:text-2xl mb-2 mt-3 uppercase w-full text-center">Estudiantes en esta carrera
             </h1>
         @endif
 
@@ -56,7 +56,7 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
                       <div class="pt-1 px-1">
                         
                         <x-list title="{{ $user->fullname }}" image="{{ $user->photo }}"
-                            url="{{ route('users.show', $user) }}" subtitle="{!!'<b>'.strtoupper($roles[ $user->getRoleNames()[0]]).'</b>'!!} {!!  '<i>'. optional($user->career)->name.'</i>' !!}"
+                            url="{{ route('users.show', $user) }}" subtitle="{!!'<b>'.$user->id.'</b>'!!} / {!!$user->career->code!!} "
                             text="nada"
                             rDelete="{{route('users.destroy', $user) }}"
                             rEdit="{{route('users.edit', $user)}}">
@@ -67,7 +67,7 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
 
                 </ul>
             @else
-                <h1 class="my-4 text-xl text-black">Sin resultados</h1>
+                <h1 class="my-4 text-xl text-black dark:text-gray-300">Sin resultados</h1>
             @endif
         </div>
         <div class=" my-3 max-w-7xl mx-auto">

@@ -13,7 +13,7 @@
         <div
             class="p-3 block md:flex w-screen mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl">
             <div class="hidden bg-cover md:block md:w-1/2"
-                style="background-image:url('https://images.unsplash.com/photo-1606660265514-358ebbadc80d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1575&q=80')">
+                style="background-image:url({{asset('imgs/'.request('u').'.jpg')}})">
             </div>
             <div class=" lg:w-1/2 mx-auto md:mx-1   px-2 md:py-8 bg-white ">
                 <div class="w-20 h-20 mx-auto mb-2">

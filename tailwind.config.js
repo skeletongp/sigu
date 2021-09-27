@@ -1,36 +1,38 @@
 module.exports = {
-  important: true,
-  // Active dark mode on class basis
-  darkMode: "class",
-  i18n: {
-    locales: ["en-US"],
-    defaultLocale: "en-US",
-  },
- 
-  purge: {
-    content: ["./pages/**/*.tsx", "./components/**/*.tsx",'./resources/**/*.blade.php',
-    './resources/**/*.js',
-    './resources/**/*.vue',],
-    // These options are passed through directly to PurgeCSS
-  },
-  theme: {
-    extend: {
-      backgroundImage: (theme) => ({
-        check: "url('/icons/check.svg')",
-        landscape: "url('/images/landscape/2.jpg')",
-      }),
+    important: true,
+    // Active dark mode on class basis
+    darkMode: "class",
+    i18n: {
+        locales: ["en-US"],
+        defaultLocale: "en-US",
     },
-  },
-  variants: {
-    extend: {
-      backgroundColor: ["checked"],
-      borderColor: ["checked"],
-      inset: ["checked"],
-      zIndex: ["hover", "active"],
+
+    purge: [
+        "./pages/**/*.tsx",
+        "./components/**/*.tsx",
+        "./resources/**/*.blade.php",
+        "./resources/**/*.js",
+        "./resources/**/*.vue",
+    ],
+
+    theme: {
+        extend: {
+            backgroundImage: (theme) => ({
+                check: "url('/icons/check.svg')",
+                landscape: "url('/images/landscape/2.jpg')",
+            }),
+        },
     },
-  },
-  plugins: [],
-  future: {
-    purgeLayersByDefault: true,
-  },
+    variants: {
+        extend: {
+            backgroundColor: ["checked"],
+            borderColor: ["checked"],
+            inset: ["checked"],
+            zIndex: ["hover", "active"],
+        },
+    },
+    plugins: [],
+    future: {
+        purgeLayersByDefault: true,
+    },
 };

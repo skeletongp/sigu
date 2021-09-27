@@ -12,7 +12,7 @@ class SubjectController extends Controller
 
     public function index()
     {
-        $subjects = Subject::search(request('q'))->orderby('name')->paginate(10);
+        $subjects = Subject::search(request('q'))->orderby('name')->paginate(6);
         return view('subjects.index')->with(['subjects' => $subjects]);
     }
 
@@ -25,13 +25,13 @@ class SubjectController extends Controller
 
     public function store(SubjectRequest $request)
     {
-        $subject = Subject::create($request->except('careers'));
-        if ($request->careers) {
-            foreach ($request->careers as $career) {
+        $subject = Subject::create($request->except('\%22careers'));
+        if (request("\%22careers")) {
+            foreach (request("\%22careers") as $career) {
                 $subject->careers()->syncWithoutDetaching($career);
             }
         }
-        return redirect()->route('subjects.show',$subject);
+        return redirect()->route('subjects.create');
     }
 
     public function show(Subject $subject)
@@ -50,13 +50,14 @@ class SubjectController extends Controller
 
     public function update(SubjectRequest $request, Subject $subject)
     {
-        $subject->update($request->except('careers'));
-        if ($request->careers) {
-            foreach ($request->careers as $career) {
+
+        $subject->update($request->except('\%22careers'));
+        if (request("\%22careers")) {
+            foreach (request("\%22careers") as $career) {
                 $subject->careers()->syncWithoutDetaching($career);
             }
         }
-        return redirect()->route('subjects.show',$subject);
+        return redirect()->route('subjects.show', $subject);
     }
 
 
@@ -67,6 +68,6 @@ class SubjectController extends Controller
     public function detach(Career $career, Subject $subject)
     {
         $subject->careers()->detach($career);
-        return redirect()->route('subjects.show',$subject);
+        return redirect()->route('subjects.show', $subject);
     }
 }

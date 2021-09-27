@@ -1,8 +1,8 @@
 <form id="{{ $id }}" action="{{ $action }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method($method)
-    <div>
-        <div class=" sm:flex space-y-2 sm:space-y-0 space-x-0 sm:space-x-2 p-1 w-full">
+    <div class="dark:bg-gray-800">
+        <div class=" sm:flex space-y-2 sm:space-y-0 space-x-0 sm:space-x-2 p-1 w-full ">
             <div class="sm:w-1/2">
                 <x-label class="text-lg" for="name">Nombre</x-label>
                 <x-input class="w-full" type="text" placeholder="Ingrese el nombre" name='name' id="name"
@@ -34,12 +34,12 @@
         @endif
         <div class="sm:flex  space-y-2 sm:space-y-0 space-x-0 sm:space-x-2  p-1 w-full ">
 
-            <div class="sm:w-1/2">
+            <div class="sm:w-1/2 ">
                 <x-label class="text-lg" for="lastname">Foto</x-label>
                 <x-label for="photoPicker" class="cursor-pointer">
-                    <div class="py-2 px-2 flex justify-between items-center rounde-md rounded-md border relative ">
-                        <span class="text-md">Seleccione archivo</span>
-                        <div id="preview" class="w-7 h-7 rounded-full bg-contain bg-center bg-red-200"></div>
+                    <div class="py-2 px-2 flex justify-between items-center rounde-md rounded-md border relative bg-white dark:bg-gray-800 text-lg ">
+                        <span class="text-md text-black dark:text-gray-300">Seleccione archivo</span>
+                        <div id="preview" class="w-7 h-7 rounded-full bg-contain bg-center "></div>
                     </div>
                 </x-label>
                 <x-input class="w-full hidden" type="file" accept="image/png, image/gif, image/jpeg" name='photoPicker'
@@ -58,7 +58,7 @@
             </div>
             <div class="sm:w-1/2  {{request('role')=='student'?'hidden':''}}" id="divImage">
                 <x-label class="text-lg" for="img"> ... </x-label>
-                <x-input disabled class="w-full" type="text" id="img"
+                <x-input disabled class="w-full text-gray-500" type="text" id="img"
                     value="{{ old('photo', request('photo')) }}" />
             </div>
         </div>

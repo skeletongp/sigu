@@ -15,7 +15,7 @@
             </div>
             <form id="formNew" action="{{ route('subjects.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div>
+                <div class="flex flex-col space-y-4">
                     <div class=" sm:flex space-y-2 sm:space-y-0 space-x-0 sm:space-x-3 p-1 w-full">
                         <div class="sm:w-4/6">
                             <x-label class="text-lg" for="name">Nombre</x-label>
@@ -23,13 +23,24 @@
                                 id="name" value="{{ old('name', request('name')) }}" />
                             <x-input-error for="name" />
                         </div>
-                        <div class="sm:w-1/6">
+                        <div class="sm:w-2/6">
                             <x-label class="text-lg" for="code">Código</x-label>
                             <x-input class="w-full" type="text" placeholder="Código" name='code' id="code"
                                 value="{{ old('code', request('code')) }}" maxlength="4" />
                             <x-input-error for="code" />
                         </div>
-                        <div class="sm:w-1/6">
+                    </div>
+                    <div class=" sm:flex space-y-2 sm:space-y-0 space-x-0 sm:space-x-3 p-1 w-full">
+                        <div class="sm:w-4/6">
+                            <x-label class="text-lg" for="name">Prerrequisito</x-label>
+                            <x-select name="preq">
+                                <option value="">Ninguno</option>
+                                @foreach ($subjects as $subject)
+                                    <option value="{{$subject->id}}">{{$subject->name}}</option>
+                                @endforeach
+                            </x-select>
+                        </div>
+                        <div class="sm:w-2/6">
                             <x-label class="text-lg" for="credits">Créditos</x-label>
                             <x-select name="credits">
                                 @for ($i = 1; $i < 6; $i++)

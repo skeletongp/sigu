@@ -36,7 +36,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
-
+    @livewireStyles
 </head>
 
 <body class="font-sans antialiased  bg-white dark:bg-gray-900 dark:text-white p-0  bg-cover bg-no-repeat bg-fixed absolute"
@@ -69,6 +69,7 @@
     @stack('js')
     {{-- @livewireScripts --}}
     <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    @livewireScripts
 </body>
 
 <style>

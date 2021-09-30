@@ -17,6 +17,8 @@ class CreateSubjectsTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('slug');
+            $table->unsignedBigInteger('preq')->nullable();
+            $table->foreign('preq')->references('id')->on('subjects');
             $table->integer('credits');
             $table->string('code')->unique();
             $table->softDeletes();

@@ -42,4 +42,16 @@ class Subject extends Model
     {
         return $this->belongsToMany(User::class)->withTrashed()->where('career_id','=',$career);
     }
+    public function prerrequisite()
+    {
+        return $this->belongsTo(Subject::class, 'preq');
+    }
+    public function sections()
+    {
+        return $this->belongsToMany(Section::class, 'section_subject_user')->withPivot('start','end','quota');
+    }
+    public function teacher()
+    {
+        return $this->belongsToMany(User::class, 'section_subject_user','user_id')->withPivot('start','end','quota');
+    }
 }

@@ -100,4 +100,8 @@ $("document").ready(function () {
             console.log(err)
         });;
     })
+    $('#changeTrimester').change(function(){
+       $('#formshow').submit();
+
+    })
 });

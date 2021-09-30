@@ -38,4 +38,8 @@ class Career extends Model
     {
         return $this->belongsToMany(Subject::class)->withPivot('trimester')->orderby('trimester');
     }
+    public function selectiondate()
+    {
+       return $this->hasMany(Selectiondate::class);
+    }
 }

@@ -42,17 +42,17 @@ class UserController extends Controller
     public function show($slug)
     {
         $user = User::where('slug', '=', $slug)->first();
-        request()->request->add($user->getOriginal());
-        $career_subjects=null;
-       if ($user->career) {
-        $career_subjects = $user->career->subjects;
-        if ( $career_subjects->count()==$user->subjects()->count()) {
-            $career_subjects=null;
-        }
-       }
-       
+        $show = $this->methods->show($user);
+        $career_subjects = $show[0];
         request()->request->add(['role' => $user->roles->pluck('name')[0]]);
-        return view('users.show')->with(['user' => $user, 'career_subjects' => $career_subjects]);
+        return view('users.show')
+            ->with([
+                'user' => $user,
+                'career_subjects' => $career_subjects,
+                'trim' => $show[1],
+                'hasActive'=>$show[2]
+
+            ]);
     }
     public function edit($slug)
     {
@@ -71,10 +71,10 @@ class UserController extends Controller
             $user->email = $user->id . '@' . substr($user->getRoleNames()[0], 0, 2) . '.sigu.edu.do';
         }
         $user->save();
-        if ($user->getRoleNames()[0]!='students') {
+        if ($user->getRoleNames()[0] != 'students') {
             $user->subjects()->detach();
         }
-        return redirect()->route('users.show', $slug);
+        return redirect()->route('users.show', $user);
     }
 
     public function destroy(User $user)
@@ -88,7 +88,7 @@ class UserController extends Controller
         $user = User::where('slug', '=', $user)->first();
         if (request('\"subjects')) {
             foreach (request('\"subjects') as $subject) {
-                $user->subjects()->syncWithoutDetaching($subject);
+                $user->subjects()->attach($subject, ['trimester' => $request->trimester, 'status' => 'coursing']);
             }
         }
         return redirect()->route('users.show', $user);
@@ -112,10 +112,10 @@ class UserController extends Controller
 
     public function darkmode(Request $request)
     {
-        $user=User::find($request->user);
-        $user->darkmode=$request->mode;
+        $user = User::find($request->user);
+        $user->darkmode = $request->mode;
         $user->save();
-      return $request->all();
+        return $request->all();
     }
 
     //Functions Auth

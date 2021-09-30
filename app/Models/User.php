@@ -90,6 +90,9 @@ class User extends Authenticatable
     }
     public function subjects()
     {
-        return $this->belongsToMany(Subject::class, 'subject_user','user_id','subject_id');
+        return $this->belongsToMany(Subject::class, 'subject_user','user_id','subject_id')->withPivot('trimester', 'status','course_id');
     }
+    
+    
+
 }

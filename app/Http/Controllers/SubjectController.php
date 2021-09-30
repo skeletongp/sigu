@@ -20,7 +20,8 @@ class SubjectController extends Controller
     public function create()
     {
         $careers = Career::orderby('name')->get();
-        return view('subjects.create')->with(['careers' => $careers]);
+        $subjects=Subject::orderby('name')->get();
+        return view('subjects.create')->with(['careers' => $careers,'subjects'=>$subjects]);
     }
 
     public function store(SubjectRequest $request)
@@ -44,7 +45,8 @@ class SubjectController extends Controller
     public function edit(Subject $subject)
     {
         $careers = Career::orderby('name')->get();
-        return view('subjects.edit')->with(['careers' => $careers, 'subject' => $subject]);
+        $subjects=Subject::orderby('name')->get();
+        return view('subjects.edit')->with(['careers' => $careers, 'subject' => $subject, 'subjects'=>$subjects]);
     }
 
 
@@ -69,5 +71,9 @@ class SubjectController extends Controller
     {
         $subject->careers()->detach($career);
         return redirect()->route('subjects.show', $subject);
+    }
+    public function mysubjects()
+    {
+        return view('subjects.mysubjects');
     }
 }

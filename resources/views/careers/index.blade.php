@@ -43,8 +43,8 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
                 <ul class="grid grid-cols-1 sm:grid-cols-2 mx-auto   gap-3  ">
 
                     @foreach ($careers as $career)
-                        <div class="p-4  rounded-xl">
-                           
+                        <div class="p-4  rounded-xl  border-2">
+                          <a href="{{route('careers.addsubject', $career)}}">Ver Pensum</a>
                             <x-list title="{{ $career->name }}"
                                 image="https://cdn3.iconfinder.com/data/icons/ballicons-reloaded-vol-1/512/icon-13-512.png"
                                 url="{{ route('careers.show', $career) }}"

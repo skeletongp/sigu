@@ -101,6 +101,9 @@ $("document").ready(function () {
     });
     ;
   });
+  $('#changeTrimester').change(function () {
+    $('#formshow').submit();
+  });
 });
 /******/ })()
 ;

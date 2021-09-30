@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\CareerController;
+use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +28,7 @@ Route::get('/', function () {
 
 //Rutas de usuarios
 Route::get('/careers/addsubject/{career}',[CareerController::class, 'addsubject'])->middleware(['auth', 'role:admin|support'])->name('careers.addsubject');
+Route::post('/careers/detachsubject/{career}/{subject}',[CareerController::class, 'detachsubject'])->middleware(['auth', 'role:admin|support'])->name('careers.detachsubject');
 Route::post('/careers/storesubject/{career}',[CareerController::class, 'storesubject'])->middleware(['auth', 'role:admin|support'])->name('careers.storesubject');
 Route::get('/auth/login',[UserController::class,'log'])->name('users.log');
 Route::post('/auth/login',[UserController::class,'login'])->name('users.login');
@@ -34,10 +36,14 @@ Route::get('/auth/logout',[UserController::class,'logout'])->name('users.logout'
 Route::put('/select/{user}',[UserController::class,'select'])->name('users.select');
 Route::delete('users/unselect/{subject}/{user}',[UserController::class,'unselect'])->name('users.unselect');
 Route::delete('subjects/detach/{career}/{subject}',[SubjectController::class,'detach'])->name('subjects.detach');
-
+Route::get('sections/selection',[SectionController::class, 'selection'])->middleware('auth')->name('sections.selection');
+Route::post('sections/select',[SectionController::class, 'select'])->middleware('auth')->name('sections.select');
+Route::get('subjects/mysubjects',[SubjectController::class, 'mysubjects'])->name('subjects.mysubjects');
+Route::post('users/{slug}', [UserController::class, 'show'])->name('users.bytrim');
 Route::resource('users', UserController::class)->middleware(['auth'])->names('users');
 Route::resource('careers', CareerController::class)->middleware(['auth', 'role:admin|support'])->names('careers');
 Route::resource('subjects', SubjectController::class)->middleware(['auth', 'role:admin|support'])->names('subjects');
+Route::resource('sections', SectionController::class)->middleware(['auth', 'role:admin|support'])->names('sections');
 
 
 

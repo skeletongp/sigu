@@ -30,6 +30,8 @@
                     </div>
                 </x-slot>
                 <x-slot name="content" class="">
+                    <span class="px-2 py-1 text-lg font-bold uppercase">{{Auth::user()->fullname}}</span>
+                    <hr>
                     <x-dropdown-link class="" href="
                     {{ route('users.show', Auth::user()) }}">Perfil</x-dropdown-link>
                     @role('admin')
@@ -41,10 +43,16 @@
                     @hasanyrole('admin|support')
                     <x-dropdown-link href="{{ route('careers.index') }}">Gestionar Carreras</x-dropdown-link>
                     <x-dropdown-link href="{{ route('subjects.index') }}">Gestionar Asignaturas</x-dropdown-link>
+                    <x-dropdown-link href="{{ route('sections.index') }}">Gestionar Secciones</x-dropdown-link>
                     @endhasanyrole
                     @hasanyrole('student|teacher')
-                    <x-dropdown-link href="{{ route('users.logout') }}">Mis Materias</x-dropdown-link>
+                    <x-dropdown-link href="{{ route('subjects.mysubjects') }}">Mis Materias</x-dropdown-link>
                     @endhasanyrole
+                    @role('student')
+                    @if (Auth::user()->career->selectiondate->count())
+                    <x-dropdown-link href="{{ route('sections.selection') }}">Selección</x-dropdown-link>   
+                    @endif
+                    @endrole
                     <x-dropdown-link href="{{ route('users.logout') }}">Salir</x-dropdown-link>
                 </x-slot>
             </x-dropdown>

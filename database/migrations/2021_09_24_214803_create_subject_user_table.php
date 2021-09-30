@@ -17,6 +17,14 @@ class CreateSubjectUserTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('subject_id')->constrained();
+          
+            $table->integer('trimester');
+            $table->decimal('ap')->nullable();
+            $table->decimal('poe')->nullable();
+            $table->decimal('pf')->nullable();
+            $table->decimal('ef')->nullable();
+            $table->decimal('nf')->nullable();
+            $table->enum('status',['aproved','failed','coursing']);
             $table->softDeletes();
             $table->timestamps();
         });

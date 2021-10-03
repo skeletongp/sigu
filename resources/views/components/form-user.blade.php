@@ -21,7 +21,7 @@
                 <div class="sm:w-1/2">
                     <x-label class="text-lg" for="password">Password</x-label>
                     <x-input class="w-full" type="password" placeholder="Ingrese nueva contraseña"
-                        name='password' id="password" />
+                        name='password' id="password" minlength="6"/>
                     <x-input-error for="password" />
                 </div>
                 <div class="sm:w-1/2">
@@ -72,7 +72,7 @@
             @if (Auth::user()->id != request('id'))
                 <div class="sm:w-1/2">
                     <x-label class="text-lg" for="role">Tipo de usuario</x-label>
-                    <x-select class="" name=" role" id="role">
+                    <x-select class="" name="role" :id="'role'">
                         <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Administrador
                         </option>
                         <option value="support" {{ request('role') == 'support' ? 'selected' : '' }}>Soporte</option>

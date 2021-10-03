@@ -14,30 +14,21 @@ class Clean implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         //
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
+    
     public function handle()
     {
-        $selections=Selectiondate::where('end','!=', now())->get();
+        $selections=Selectiondate::where('end','<', now())->get();
 
         if($selections->count()){
             foreach ($selections as $selection) {
                 $selection->delete();
             }
         }
-        Log::info('limpiando');
+        
     }
 }

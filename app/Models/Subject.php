@@ -34,7 +34,7 @@ class Subject extends Model
     /* Todos los estudiantes que toman una asignatura */
     public function students()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'subject_user');
     }
 
     /* Los estudiantes que toman una asignatura según la carrera */
@@ -54,4 +54,6 @@ class Subject extends Model
     {
         return $this->belongsToMany(User::class, 'section_subject_user','user_id')->withPivot('start','end','quota');
     }
+    
+   
 }

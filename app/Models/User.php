@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Builder;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,6 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 use App\Traits\UserTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Nicolaslopezj\Searchable\SearchableTrait;
+use Spatie\Permission\Models\Role;
 
 class User extends Authenticatable
 {
@@ -45,11 +45,11 @@ class User extends Authenticatable
             'careers.code' => 5,
         ],
         'joins' => [
-            'careers' => ['users.career_id', 'careers.id']
+            'careers' => ['users.career_id', 'careers.id'],
         ]
     ];
     protected $roleable = ['admin', 'support', 'teacher', 'student'];
-
+    protected $orderable=['name','lastname', 'id', 'birthday'];
     protected $hidden = [
         'password',
         'remember_token',
@@ -77,6 +77,10 @@ class User extends Authenticatable
         ];
         return $roles[$this->getRoleNames()[0]];
     }
+    public function rol()
+    {
+        return $this->getRoleNames()[0];
+    }
     public function age()
     {
         return date_diff(now(), date_create($this->birthday))->y;
@@ -86,13 +90,24 @@ class User extends Authenticatable
         if ($rol=="") {
             return User::get()->count();
         }
-        return User::isRole($rol)->get()->count();
+        return Role::findByName($rol)->users->count();
     }
     public function subjects()
     {
         return $this->belongsToMany(Subject::class, 'subject_user','user_id','subject_id')->withPivot('trimester', 'status','course_id');
     }
+    public function teach_subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'section_subject_user');
+    }
     
-    
+    public function teach_sections()
+    {
+        return $this->hasMany(SectionSubjectUser::class);
+    }
 
+    public function teach_students()
+    {
+        return $this->belongsToMany(User::class, 'subject_user', 'teacher_id','user_id');
+    }
 }

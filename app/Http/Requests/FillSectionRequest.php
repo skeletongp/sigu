@@ -10,17 +10,13 @@ class FillSectionRequest extends FormRequest
 {
     public function prepareForValidation()
     {
-        $this->request->add(['subject_id' => request('\"subject_id\"')]);
-        $this->request->add(['user_id' => request('\"user_id\"')]);
-        $this->request->add(['section_id' => request('\"section_id\"')]);
-        $this->request->remove('\"subject_id\"');
-        $this->request->remove('\"user_id\"');
-        $this->request->remove('\"section_id\"');
+       
     }
     public function authorize()
     {
         $data = SectionSubjectUser::where('section_id', '=', $this->section_id)
             ->where('day', '=', $this->day)
+            ->where('id','!=', $this->id)
             ->whereBetween('start', [$this->start, $this->end])
             ->get();
 
@@ -29,6 +25,7 @@ class FillSectionRequest extends FormRequest
         }
         $data = SectionSubjectUser::where('user_id', '=', $this->user_id)
             ->where('day', '=', $this->day)
+            ->where('id','!=', $this->id)
             ->whereBetween('start', [$this->start, $this->end])
             ->get();
         if ($data->count()) {
@@ -46,6 +43,8 @@ class FillSectionRequest extends FormRequest
     {
         return [
             'quota' => 'numeric|max:30|min:10',
+            'start'=>'required|',
+            'end'=>'after:start'
         ];
     }
     protected function failedAuthorization()

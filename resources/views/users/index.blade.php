@@ -1,10 +1,13 @@
 @php
 $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 'student' => 'Estudiante'];
+$order = ['id' => 'Matrícula', 'name' => 'Nombre', 'lastname' => 'Apellido', 'birthday' => 'Edad'];
+
 @endphp
 
 <x-app>
     <div class="w-full p-4 bg-white dark:bg-gray-800 shadow-xl rounded-xl relative  max-w-7xl mx-auto">
         {{-- Crear nuevo usuario --}}
+
         @hasanyrole('admin|support')
         <div class=" top-2 xl:left-5  z-50 absolute">
             <x-dropdown align="left">
@@ -28,12 +31,12 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
         @endhasanyrole
 
         {{-- Form de búsqueda y filtrado --}}
-        <form action="{{ route('users.index') }}" class="m-3 xl:mt-5 mx-auto ">
+        <form action="{{ route('users.index') }}" class="m-3 xl:mt-5 mx-auto " id="formSearch">
             <div class=" lg:flex lg:space-x-3 justify-center my-4 xl:w-2/3 mx-auto">
                 <div class="w-full lg:w-1/3">
                     <x-label class="text-lg ">Buscar</x-label>
                     <x-input type="search" class="w-full" placeholder="Término de búsqueda" name="q"
-                        value="{{ old('q', request('q')) }}">
+                        value="{{ old('q', request('q')) }}" autocomplete>
                         <x-slot name="icon">
                             <button>
                                 <span role="button" class="fas fa-search text-blue-500 cursor-pointer">
@@ -45,7 +48,7 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
                 @hasanyrole('admin|support')
                 <div class="w-full lg:w-1/3 my-2 lg:my-0">
                     <x-label class="text-lg">Filtrar por</x-label>
-                    <x-select name="r" style="-webkit-appearance: none;">
+                    <x-select name="r" style="-webkit-appearance: none;" id="roleSearch">
                         <option value="">Todos</option>
                         @foreach ($roles as $key => $rol)
                             <option value="{{ $key }}" {{ request('r') == $key ? 'selected' : '' }}>
@@ -59,12 +62,36 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
                         </x-slot>
                     </x-select>
                 </div>
+                <div class="hidden xl:block w-full lg:w-1/3 my-2 lg:my-0">
+                    <x-label class="text-lg">Ordernar por</x-label>
+                    <x-select name="o" style="-webkit-appearance: none;" id="orderSearch">
+                        @foreach ($order as $key => $ord)
+                            <option value="{{ $key }}" {{ request('o') == $key ? 'selected' : '' }}>
+                                {{ $ord }}</option>
+                        @endforeach
+                        <x-slot name="icon">
+                            <button>
+                                <span role="button" class="fas fa-sort text-blue-500 cursor-pointer">
+                                </span>
+                            </button>
+                        </x-slot>
+                    </x-select>
+                </div>
                 @endhasanyrole
             </div>
         </form>
         @if ($users->count())
-            <h1 class=" font-bold text-xl xl:text-2xl mb-2 mt-3 uppercase w-full text-center">Resgistro de usuarios
-            </h1>
+            <div class="lg:mt-8">
+                @if (!request('r'))
+                    <h1 class=" font-bold text-xl xl:text-2xl  mt-3 uppercase w-full text-center">Resgistro de
+                        usuarios
+                    </h1>
+                @else
+                    <h1 class=" font-bold text-xl xl:text-2xl mt-3 uppercase w-full text-center">LISTADO DE
+                        {{ $roles[request('r')] }}s
+                    </h1>'
+                @endif
+            </div>
         @endif
 
         {{-- Listado de datos --}}
@@ -77,7 +104,7 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
 
                             <x-list title="{{ $user->fullname }}" image="{{ $user->photo }}"
                                 url="{{ route('users.show', $user) }}"
-                                subtitle="{!! '<b>' . strtoupper($roles[$user->getRoleNames()[0]]) . '</b>' !!} {!! '<i>' . optional($user->career)->code . '</i>' !!}" text="nada"
+                                subtitle="{!! '<b>' . strtoupper($roles[$user->rol()]) . '</b>' !!} {!! '<i>' . optional($user->career)->code . '</i>' !!}" text="nada"
                                 rDelete="{{ route('users.destroy', $user) }}"
                                 rEdit="{{ route('users.edit', $user) }}">
                             </x-list>

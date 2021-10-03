@@ -3,8 +3,8 @@ module.exports = {
     // Active dark mode on class basis
     darkMode: "class",
     i18n: {
-        locales: ["en-US"],
-        defaultLocale: "en-US",
+        locales: ["es-Es"],
+        defaultLocale: "es-ES",
     },
 
     purge: [
@@ -25,10 +25,11 @@ module.exports = {
     },
     variants: {
         extend: {
-            backgroundColor: ["checked"],
+            backgroundColor: ["checked", "disabled"],
             borderColor: ["checked"],
             inset: ["checked"],
             zIndex: ["hover", "active"],
+            opacity: ['disabled'],
         },
     },
     plugins: [],

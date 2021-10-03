@@ -5,11 +5,12 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Nicolaslopezj\Searchable\SearchableTrait;
 
 class SectionSubjectUser extends Model
 {
-    use HasFactory, SearchableTrait;
+    use HasFactory, SearchableTrait, SoftDeletes;
     protected $table="section_subject_user";
     protected $guarded=[];
 
@@ -50,5 +51,8 @@ class SectionSubjectUser extends Model
     public function getFinishAttribute() {
         return Carbon::parse(substr($this->end, 0, 5))->format('g:i A');
     }
-    
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'subject_user', 'course_id', 'user_id');
+    }
 }

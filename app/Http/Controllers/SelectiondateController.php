@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Career;
 use App\Models\Selectiondate;
 use Illuminate\Http\Request;
 
@@ -44,9 +45,13 @@ class SelectiondateController extends Controller
     }
 
     
-    public function destroy($id)
+    public function destroy( $career)
     {
-        //
+        $career=Career::where('slug','=',$career)->first();
+        foreach ($career->selectiondate as $seldate) {
+            $seldate->delete();
+        }
+        return redirect()->back();
     }
    
 }

@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Methods\userMethods;
+use App\Jobs\Clean;
 use App\Models\Subject;
 
 class UserController extends Controller
@@ -86,8 +87,8 @@ class UserController extends Controller
     public function select(Request $request,  $user)
     {
         $user = User::where('slug', '=', $user)->first();
-        if (request('\"subjects')) {
-            foreach (request('\"subjects') as $subject) {
+        if (request('subjects')) {
+            foreach (request('subjects') as $subject) {
                 $user->subjects()->attach($subject, ['trimester' => $request->trimester, 'status' => 'coursing']);
             }
         }
@@ -132,7 +133,8 @@ class UserController extends Controller
     {
         $rol = $request->u;
         if ($this->attempLogin($request, $rol)) {
-            return redirect()->route('users.index');
+            Clean::dispatch();
+            return redirect()->route('home');
         }
         Auth::logout();
         return redirect()->route('users.log', ['u' => request('u'), 'e' => true]);

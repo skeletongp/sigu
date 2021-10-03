@@ -1,8 +1,10 @@
 <x-app>
-    <div class="max-w-2xl mx-auto">
-       <h1 class=" text-center text-xl xl:text-3xl my-2 font-bold uppercase">
-        mi horario
-       </h1>
-        @livewire('section-table', ['having' => true])
+    <div class="max-w-3xl mx-auto">
+        @if (Auth::user()->subjects->count())
+        @livewire('section-table', ['having' => true, 'hide_button'=>true])
+        @else
+            <h1 class="uppercase text-center font-bold text-xl xl:text-4xl">No has seleccionado ninguna asignatura</h1>
+        @endif
+        
     </div>
 </x-app>

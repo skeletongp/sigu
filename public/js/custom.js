@@ -59,11 +59,10 @@ $("document").ready(function () {
     });
   });
   $('#rowLeft').click(function () {
-    $('#lateral').toggle('', false);
+    $('#lateral').toggle("slow ", false);
+    console.log($('#role'));
   });
   $('#role').change(function () {
-    data = $(this).val();
-
     if (data == 'student') {
       $('#divCareer').show(300, 'linear');
       $('#divImage').hide(300, 'linear');
@@ -85,7 +84,6 @@ $("document").ready(function () {
     }
 
     user = $('#user').val();
-    console.log(user);
     data = new FormData();
     data.append("mode", status);
     $.ajax({
@@ -103,6 +101,12 @@ $("document").ready(function () {
   });
   $('#changeTrimester').change(function () {
     $('#formshow').submit();
+  });
+  $('#roleSearch').change(function () {
+    $('#formSearch').submit();
+  });
+  $('#orderSearch').change(function () {
+    $('#formSearch').submit();
   });
 });
 /******/ })()

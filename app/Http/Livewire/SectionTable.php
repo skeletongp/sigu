@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\CareerSubject;
 use App\Models\Section;
 use App\Models\SectionSubjectUser;
+use App\Models\Selectiondate;
 use App\Models\Subject;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -14,18 +15,18 @@ use Livewire\WithPagination;
 class SectionTable extends Component
 {
     use WithPagination;
-    public $having = false;
+    public $having = false, $hide_button = false;
     public $action = "Agregar", $search;
-    public $selected = [], $matIds=[];
+    public $selected = [], $matIds = [];
     public $role;
     public function render()
     {
         $user = Auth::user();
         $role = $user->getRoleNames()[0];
-        $this->role=$role;
+        $this->role = $role;
         /* Obtiene las asignaturas que el usuario tiene inscritas */
         $sub_user = $user->subjects;
-        $career=null;
+        $career = null;
         /* Si el usuario logueado es estudiante */
         if ($role == 'student') {
             /* Obtiene la carrera del usuario */
@@ -34,7 +35,7 @@ class SectionTable extends Component
             $subjects = $career->subjects;
             /* Para almacenar el id de secciones elegidas */
             $ids = [];
-            $sections = [];
+            $sections = null;
             /* Si el usuario tiene asignaturas */
             if ($subjects->count()) {
                 /* Por cada asignatura */
@@ -66,7 +67,6 @@ class SectionTable extends Component
                 /* Obteiene las secciones donde el usuario tiene materias inscritas */
                 $sections = SectionSubjectUser::with('teacher', 'section', 'subject')
                     ->whereIn('subject_id', $ids)
-                    ->where('quota', '>', 0)
                     ->whereIn('section_subject_user.id', $id_course)
                     ->search($this->search)->paginate(6);
             }
@@ -76,9 +76,9 @@ class SectionTable extends Component
                 ->where('quota', '>', 0)
                 ->search($this->search)->paginate(6);
         }
-        return view('livewire.section-table')->with(['sections' => $sections, 'career'=>$career]);
+        return view('livewire.section-table')->with(['sections' => $sections, 'career' => $career]);
     }
-  
+
     public function updatedSearch()
     {
         $this->resetPage();
@@ -92,30 +92,49 @@ class SectionTable extends Component
         }
         if (in_array($mat, $this->matIds)) {
             $this->matIds = array_diff($this->matIds, [$mat]);
-
         } else {
             array_push($this->matIds, $mat);
-
         }
     }
     public function select()
     {
         $user = Auth::user();
         $career = $user->career;
-
-        foreach ($this->selected as $id) {
+        $selDate = Selectiondate::first();
+        $count=$user->subjects->count();
+        for ($i = 0; $i < 4-$count && $i<count($this->selected) ; $i++) {
+            $id = $this->selected[$i];
             $section = SectionSubjectUser::where('id', '=', $id)->first();
             $career_subject = CareerSubject::where('career_id', $career->id)
                 ->where('subject_id', $section->subject_id)->first();
-            $user->subjects()->attach($section->subject_id, ['trimester' => $career_subject->trimester, 'status' => 'coursing', 'course_id' => $section->id]);
+            $user->subjects()->attach($section->subject_id, ['trimester' => $career_subject->trimester, 'status' => 'coursing', 'course_id' => $section->id, 'teacher_id'=>$section->user_id, 'created_at' => now(), 'updated_at' => now()]);
+            $section->quota = $section->quota - 1;
+            $section->save();
+            if ($selDate->count()) {
+                $selDate->count = $selDate->count + 1;
+                $selDate->save();
+            }
         }
         return redirect(request()->header('Referer'));
     }
     public function unselect($id)
     {
         $user = Auth::user();
+        $selDate = Selectiondate::first();
         $section = SectionSubjectUser::where('id', '=', $id)->first();
+        $section->quota = $section->quota + 1;
+        $section->save();
         $user->subjects()->detach($section->subject_id);
+        if ($selDate->count()) {
+            $selDate->count = $selDate->count - 1;
+            $selDate->save();
+        }
+        return redirect(request()->header('Referer'));
+    }
+
+    public function delete(SectionSubjectUser $section)
+    {
+        $section->delete();
         return redirect(request()->header('Referer'));
     }
 }

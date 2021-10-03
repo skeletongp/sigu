@@ -11,11 +11,10 @@ use Mockery\Matcher\Subset;
 
 class CareerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   public function __construct() {
+      $this->middleware(['role:admin|support'])
+      ->except('index','show','addsubject');
+   }
     public function index()
     {
         $careers = Career::searcH(request('q'))->orderby('name')->paginate(10);

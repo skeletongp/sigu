@@ -1,15 +1,16 @@
 <x-app>
 
     <div class="container mx-auto px-4 sm:px-8 max-w-xl">
-        <div class="bg-blue-300 text-black dark:text-gray-100 dark:bg-gray-900 w-8 h-8 flex flex-col justify-center items-center rounded-full ">
+        <div
+            class="bg-blue-300 text-black dark:text-gray-100 dark:bg-gray-900 w-8 h-8 flex flex-col justify-center items-center rounded-full ">
             <x-dropdown align="left">
                 <x-slot name="trigger">
                     <span class="fas fa-plus cursor-pointer"></span>
                 </x-slot>
                 <x-slot name="content">
-                    <x-dropdown-link href="{{route('sections.create')}}">Nueva Sección</x-dropdown-link>
+                    <x-dropdown-link href="{{ route('sections.create') }}">Nueva Sección</x-dropdown-link>
                     @if ($sections->count())
-                    <x-dropdown-link href="{{route('sections.selection')}}">Llenar Sección</x-dropdown-link>
+                        <x-dropdown-link href="{{ route('sections.selection') }}">Llenar Sección</x-dropdown-link>
                     @endif
                 </x-slot>
             </x-dropdown>
@@ -37,9 +38,11 @@
                 <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
                     @if ($sections->count())
                         @foreach ($sections as $section)
-                            <x-list :rDelete="route('sections.destroy', $section)" :rEdit="route('sections.edit', $section)" :url="''"
+                            <x-list :rDelete="route('sections.destroy', $section)"
+                                :rEdit="route('sections.edit', $section)" :url="route('sections.show',$section) "
                                 image="https://res.cloudinary.com/dboafhu31/image/upload/v1624658165/Download-Computer-512_fp1r3y.png"
-                                :title="$section->name" :subtitle="$section->code.optional($section->subjects)->count()">
+                                :title="$section->name"
+                                :subtitle="$section->code.optional($section->subjects)->count()">
                             </x-list>
                         @endforeach
                     @else

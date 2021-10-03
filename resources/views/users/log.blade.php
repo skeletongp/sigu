@@ -41,14 +41,9 @@
                                 </x-input>
 
                             </div>
-                            <div class="flex justify-between">
-                                <div class="flex items-center space-x-1">
-                                    <x-input type="checkbox" id="remember" name="remember"
-                                        class="border-0 border-white" />
-                                    <x-label class="w-1/3 sm:w-full text-main-70" for="remember">Recordar contraseña
-                                    </x-label>
-                                </div>
-                                <x-button class="w-max ml-auto bg-main-100">Ingresar</x-button>
+                            <div class="flex justify-end">
+                               
+                                <x-button class="w-max font-bold text-md ml-auto bg-second-100">Ingresar</x-button>
                             </div>
 
                         </div>
@@ -70,8 +65,8 @@
                 @foreach ($roles as $key => $rol)
                     @if ($key != request('u'))
                         <div class="w-full ">
-                            <a href="{{ route('users.log', ['u'=>$key]) }}" class="uppercase font-bold text-2xl text-second-80 hover:text-gray-900">
-                                <div class="h-20 w-20  mx-auto bg-cover bg-center bg-no-repeat rounded-full"
+                            <a href="{{ route('users.log', ['u'=>$key]) }}" class="uppercase font-bold text-xl text-second-80 hover:text-gray-900">
+                                <div class="h-12 w-12  mx-auto bg-cover bg-center bg-no-repeat rounded-full"
                                     style="background-image: url({{ asset('imgs/' . $key . '.jpg') }})">
                                 </div>
                                 {{ $rol }}

@@ -14,13 +14,15 @@ class userMethods
     {
         $search = " ";
         request('q') ? $search = request('q') : '';
+        $order=request('o');
         $career = request('c');
         Auth::user()->hasAnyRole('admin|support') ? " " : $role = 'student';
         if (request('r')) {
             Auth::user()->hasAnyRole('admin|support') ? $role = request('r') : $role = 'student';
         }
         $users =   User::isRole($role)->career($career)->where('users.id', '!=', 20210001)->search($search)
-            ->paginate(12)->appends(request()->query());
+            ->order($order)->paginate(9)->appends(request()->query());
+        
         return $users;
     }
 

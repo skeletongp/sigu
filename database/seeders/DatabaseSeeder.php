@@ -17,14 +17,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Role::create(['name' => 'admin']);
+       /*  Role::create(['name' => 'admin']);
         Role::create(['name' => 'teacher']);
         Role::create(['name' => 'student']);
-        Role::create(['name' => 'support']);
+        Role::create(['name' => 'support']); */
         $admin = User::create([
             'name' => 'Admin',
             'lastname' => 'User',
             'birthday' => date('Y-m-d'),
+            'id'=>20210001
 
         ]);
         $admin->email = $admin->id . '@ad.sigu.edu.do';
@@ -36,7 +37,7 @@ class DatabaseSeeder extends Seeder
 
         $admin->save();
         $admin->assignRole('admin');
-        \App\Models\Career::factory(5)->create();
+        /* \App\Models\Career::factory(5)->create();
         \App\Models\User::factory(250)->create()->each(function ($user) {
             $num=random_int(0,419);
             $path=DB::connection('mysql2')->table('photos')->where('num', $num)->first();
@@ -51,6 +52,6 @@ class DatabaseSeeder extends Seeder
             $user->save();
             $num>420?$num==-1:'';
             $num++;
-        });
+        }); */
     }
 }

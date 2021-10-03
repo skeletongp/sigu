@@ -21,10 +21,10 @@
 
         </div>
         <div class="flex-1 pl-1 mr-16">
-            <div class="font-bold text-lg w-60 dark:text-white truncate overflow-ellipsis">
-                {{ $title }}
+            <div class="font-bold text-lg w-60 dark:text-white truncate overflow-ellipsis mb-1 leading-5">
+                {!! $title !!}
             </div>
-            <div class="text-gray-600 dark:text-gray-200 text-sm">
+            <div class="text-gray-600 dark:text-gray-200 text-sm flex justify-between">
                 {!! $subtitle !!}
             </div>
         </div>

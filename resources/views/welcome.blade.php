@@ -36,11 +36,11 @@
           @foreach ($roles as $rol => $text)
           <div class=" flex flex-col items-center justify-center ">
             <a class="text-center text-xl font-bold uppercase shadow-md w-full" href="{{ route('users.log', ['u' => $rol]) }}">
-                <x-button class="text-center text-md sm:text-xl font-bold uppercase bg-{{$text[1]}} flex space-y-3 flex-col w-full p-4 rounded-xl text-color5" type=" button">
-                    <div class="h-24 w-24 sm:h-44 sm:w-44 bg-cover bg-center bg-no-repeat rounded-full"
+                <x-button class="text-center text-md sm:text-xl font-bold uppercase bg-{{$text[1]}} flex space-y-3 flex-col w-full p-4 rounded-xl text-color5 lg:px-8" type=" button">
+                    <div class="h-24 w-24 sm:h-36 sm:w-36  bg-cover bg-center bg-no-repeat rounded-full"
                         style="background-image: url({{asset('imgs/'.$rol.'.jpg')}})">
                     </div>
-                    <h1>Acceder como {{$text[0]}}</h1>
+                    <h1>soy {{$text[0]}}</h1>
                 </x-button>
             </a>
         </div>

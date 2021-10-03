@@ -21,6 +21,7 @@ class CreateSectionSubjectTable extends Migration
             $table->enum('day',['LUN','MAR','MIER','JUE','VIE','SAB']);
             $table->time('start');
             $table->time('end');
+            $table->softDeletes();
             $table->integer('quota')->default(30);
             $table->timestamps();
         });

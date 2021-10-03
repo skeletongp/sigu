@@ -1,9 +1,9 @@
 <x-app>
     <div
-        class="bg-white dark:bg-gray-800 rounded-xl max-w-2xl mx-auto px-4 py-2  flex flex-col items-end self-center w-full
-    ">
+        class="bg-white dark:bg-gray-800 rounded-xl max-w-2xl mx-auto px-4 py-2  flex flex-col items-end self-center w-full">
         <h1 class="text-center font-bold uppercase mb-4 w-full">Pensum de {{ $career->name }}</h1>
         @if ($subjects->count() !== $career->subjects->count())
+            @hasanyrole('admin|support')
             <div class="w-full">
                 <form id="formNew" action="{{ route('careers.storesubject', $career) }}" method="POST"
                     enctype="multipart/form-data">
@@ -37,13 +37,14 @@
             <x-button type="submit" form="formNew" class="bg-main-100 my-3">
                 Añadir al Pensum
             </x-button>
+            @endhasanyrole
         @endif
 
     </div>
     <hr>
     @php
         $trimsubjects = $career->trimestersubjects->groupby('pivot.trimester');
-     
+        
     @endphp
     <div class="max-w-7xl mx-4 xl:mx-auto my-3 grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-2">
         @foreach ($trimsubjects as $trimester)
@@ -57,23 +58,32 @@
                     </li>
                 </div>
                 @foreach ($trimester as $subject)
-                @php
-                       $preq=optional($subject->prerrequisite)->code;
-                @endphp
+                    @php
+                        $preq = optional($subject->prerrequisite)->code;
+                    @endphp
                     <div class="text-gray-600 dark:text-gray-200 text-sm">
                         <li class="grid grid-cols-8 justify-between uppercase mb-2 ">
                             <div class="flex col-span-6">
                                 <form action="{{ route('careers.detachsubject', [$career, $subject]) }}"
                                     method="POST">
                                     @csrf
+                                    @hasanyrole('admin|support')
                                     <button onclick="return confirm('¿Eliminar registro?')">
                                         <span class="fas fa-times mr-2 text-red-600"></span>
                                     </button>
+                                    @endhasanyrole
                                 </form>
-                                <span>{{ $subject->name }}</span>
+                                @role('student')
+                                <span
+                                    class="{{ Auth::user()->subjects->contains($subject) ? 'text-green-500' : '' }}">
+                                    {{ $subject->code . ' - ' . $subject->name }}</span>
+                                @endrole
+                                @hasanyrole('admin|support')
+                                <span>{{ $subject->code . ' - ' . $subject->name }}</span>
+                                @endhasanyrole
                             </div>
                             <span class="col-span-1">{{ $subject->credits }} Cr.</span>
-                            <span class="col-span-1">{{ $preq? $preq:'BACH' }}</span>
+                            <span class="col-span-1">{{ $preq ? $preq : 'BACH' }}</span>
                         </li>
                     </div>
                 @endforeach

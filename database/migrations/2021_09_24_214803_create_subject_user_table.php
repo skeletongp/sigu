@@ -17,7 +17,8 @@ class CreateSubjectUserTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('subject_id')->constrained();
-          
+            $table->unsignedBigInteger('teacher_id');
+            $table->foreign('teacher_id')->references('id')->on('users');
             $table->integer('trimester');
             $table->decimal('ap')->nullable();
             $table->decimal('poe')->nullable();

@@ -10,6 +10,10 @@ use App\Models\SectionSubjectUser;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use PhpParser\JsonDecoder;
+
+use function PHPSTORM_META\type;
 
 class SectionController extends Controller
 {
@@ -36,13 +40,24 @@ class SectionController extends Controller
 
     public function show(Section $section)
     {
-        //
+        $data= $section->courses->groupby('subject_id');
+        return view('sections.show')
+        ->with(['data'=>$data]);
     }
 
 
-    public function edit(Section $section)
+    public function edit(SectionSubjectUser $section)
     {
-        //
+        $subjects = Subject::orderby('name')->get();
+        $sections = Section::orderby('name')->get();
+        $teachers=User::isRole('teacher')->orderby('name')->get();
+        return view('sections.edit')
+        ->with([
+            'sections' => $sections,
+            'subjects' => $subjects,
+            'teachers' => $teachers,
+            'sect'=>$section
+        ]);
     }
 
 
@@ -61,16 +76,22 @@ class SectionController extends Controller
         $subjects = Subject::orderby('name')->get();
         $sections = Section::orderby('name')->get();
         $teachers=User::isRole('teacher')->orderby('name')->get();
+      if (Auth::user()->getRoleNames()[0] != 'student' || Auth::user()->subjects->count() < 4) {
         return view('sections.selection')
-            ->with([
-                'sections' => $sections,
-                'subjects' => $subjects,
-                'teachers' => $teachers,
-            ]);
+        ->with([
+            'sections' => $sections,
+            'subjects' => $subjects,
+            'teachers' => $teachers,
+        ]);
+      } else {
+          return redirect()->route('subjects.mysubjects');
+      }
+      
     }
     public function select(FillSectionRequest $request)
     {
-        SectionSubjectUser::create($request->all());
+        SectionSubjectUser::updateOrCreate(['id'=>$request->id],$request->all());
         return redirect()->route('sections.selection');
     }
+
 }

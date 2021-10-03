@@ -42,6 +42,8 @@ Route::delete('users/unselect/{subject}/{user}', [UserController::class, 'unsele
 Route::get('subjects/mysubjects', [SubjectController::class, 'mysubjects'])->middleware('auth')->name('subjects.mysubjects');
 Route::delete('subjects/detach/{career}/{subject}', [SubjectController::class, 'detach'])->name('subjects.detach');
 Route::get('subjects/myteachstudents/{subject}', [SubjectController::class, 'myteachstudents'])->middleware(['auth'])->name('subjects.myteachstudents');
+Route::get('subjects/editnotes', [SubjectController::class, 'editnotes'])->middleware(['auth', 'role:teacher'])->name('subjects.editnotes');
+Route::put('subjects/calificate', [SubjectController::class, 'calificate'])->middleware(['auth', 'role:teacher'])->name('subjects.calificate');
 Route::resource('subjects', SubjectController::class)->middleware(['auth', 'role:admin|support'])->names('subjects');
 
 /* Rutas de secciones */

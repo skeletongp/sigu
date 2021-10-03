@@ -18,7 +18,7 @@ class StudentsSubjects extends Component
     
     public function render()
     {
-        $subjects=User::find($this->id)->subjects()->get();
-        return view('components.students-subjects')->with(['subjects'=>$subjects, 'user'=>$this->user]);
+        $courses=User::find($this->id)->courses()->get();
+        return view('components.students-subjects')->with(['courses'=>$courses, 'user'=>$this->user]);
     }
 }

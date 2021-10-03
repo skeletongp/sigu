@@ -2,7 +2,7 @@
 $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 'student' => 'Estudiante'];
 @endphp
 <x-app>
-    <div class="bg-white p-4 lg:max-w-3xl mx-auto relative dark:bg-gray-800">
+    <div class="bg-white p-4 max-w-xl mx-auto relative dark:bg-gray-800">
         @hasanyrole('admin')
         <div class=" absolute top-3 right-3">
             <a href="{{ route('users.edit', $user) }}"><span class="fas fa-pen text-blue-400"></span></a>
@@ -20,7 +20,7 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
                 <div class="w-full h-full flex flex-col justify-center items-center">
                     <h1 class="sm:text-3xl font-bold">{{ $user->fullname }}</h1>
                     <h2>{{ $user->email }}</h2>
-                    <h2 class=" font-bold uppercase text-lg">{{ $roles[$user->rol()] }}</h2>
+                    <h2 class=" font-bold uppercase text-lg mt-2">{{ $user->role() }}</h2>
                     <h2>{{ optional($user->career)->name }}</h2>
                     <div class="flex space-x-3 uppercase text-sm font-bold">
                         @if ($user->teach_students->count())
@@ -30,7 +30,6 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
                             <h2>{{ $user->teach_subjects->count() }} Secciones</h2>
                         @endif
                     </div>
-
 
                 </div>
             </div>

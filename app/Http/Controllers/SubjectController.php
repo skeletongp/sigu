@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NoteRequest;
 use App\Http\Requests\SubjectRequest;
 use App\Models\Career;
 use App\Models\SectionSubjectUser;
 use App\Models\Subject;
+use App\Models\SubjectUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,15 +24,15 @@ class SubjectController extends Controller
     public function create()
     {
         $careers = Career::orderby('name')->get();
-        $subjects=Subject::orderby('name')->get();
-        return view('subjects.create')->with(['careers' => $careers,'subjects'=>$subjects]);
+        $subjects = Subject::orderby('name')->get();
+        return view('subjects.create')->with(['careers' => $careers, 'subjects' => $subjects]);
     }
 
     public function store(SubjectRequest $request)
     {
-        $subject = Subject::create($request->except('\%22careers'));
-        if (request("\%22careers")) {
-            foreach (request("\%22careers") as $career) {
+        $subject = Subject::create($request->except('careers'));
+        if (request("careers")) {
+            foreach (request("careers") as $career) {
                 $subject->careers()->syncWithoutDetaching($career);
             }
         }
@@ -47,8 +49,8 @@ class SubjectController extends Controller
     public function edit(Subject $subject)
     {
         $careers = Career::orderby('name')->get();
-        $subjects=Subject::orderby('name')->get();
-        return view('subjects.edit')->with(['careers' => $careers, 'subject' => $subject, 'subjects'=>$subjects]);
+        $subjects = Subject::orderby('name')->get();
+        return view('subjects.edit')->with(['careers' => $careers, 'subject' => $subject, 'subjects' => $subjects]);
     }
 
 
@@ -76,33 +78,51 @@ class SubjectController extends Controller
     }
     public function mysubjects()
     {
-        if (Auth::user()->getRoleNames()[0]=='student') {
+        if (Auth::user()->getRoleNames()[0] == 'student') {
             return view('subjects.mysubjects');
         } else {
-            $subjects=Auth::user()->teach_sections;
+            $subjects = Auth::user()->teach_sections;
             return view('subjects.myteachsubjects')
-            ->with(['subjects'=>$subjects]);
+                ->with(['subjects' => $subjects]);
         }
-        
     }
-    public function myteachstudents( $section)
+    public function myteachstudents($section)
     {
 
-       if (intval($section)) {
-        $section=SectionSubjectUser::find($section);
-        $students=$section->students;
-       }
-       else{
-           $section=Subject::where('slug','=',$section)->first();
-           $students=$section->students;
-           foreach ($students as $key=> $student) {
-               if (!Auth::user()->teach_students->contains($student)) {
-                  $students->forget($key);
-               }
-           }
-       }
+        if (intval($section)) {
+            $section = SectionSubjectUser::find($section);
+            $students = $section->students;
+        } else {
+            $section = Subject::where('slug', '=', $section)->first();
+            $students = $section->students;
+            foreach ($students as $key => $student) {
+                if (!Auth::user()->teach_students->contains($student)) {
+                    $students->forget($key);
+                }
+            }
+        }
 
         return view('subjects.myteachstudents')
-        ->with(['students'=>$students]);
+            ->with(
+                [
+                    'students' => $students,
+                    'section' => $section
+                ]
+            );
+    }
+    public function editnotes(Request $request)
+    {
+        $section=SubjectUser::where('user_id','=',$request->user_id)
+        ->where('course_id','=',$request->course_id)->first();
+
+        return view('subjects.editnotes')
+        ->with(['section'=>$section]);
+
+    }
+    public function calificate(NoteRequest $request)
+    {
+        $section=SubjectUser::find($request->section);
+       $section->update($request->except('condition','section'));
+       return redirect()->back();
     }
 }

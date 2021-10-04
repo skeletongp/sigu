@@ -79,8 +79,8 @@
     </footer>
 
     @stack('modals')
-    @stack('js')
     <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    @stack('js')
     @livewireScripts
 </body>
 

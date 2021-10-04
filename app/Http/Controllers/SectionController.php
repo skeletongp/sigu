@@ -73,10 +73,11 @@ class SectionController extends Controller
     }
     public function selection()
     {
+        $user=Auth::user();
         $subjects = Subject::orderby('name')->get();
         $sections = Section::orderby('name')->get();
         $teachers=User::isRole('teacher')->orderby('name')->get();
-      if (Auth::user()->getRoleNames()[0] != 'student' || Auth::user()->subjects->count() < 4) {
+      if (($user->rol() != 'student') || ($user->subjects->count() < 3  && $user->career->selectiondate->count())) {
         return view('sections.selection')
         ->with([
             'sections' => $sections,

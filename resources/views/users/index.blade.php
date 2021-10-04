@@ -7,7 +7,6 @@ $order = ['id' => 'Matrícula', 'name' => 'Nombre', 'lastname' => 'Apellido', 'b
 <x-app>
     <div class="w-full p-4 bg-white dark:bg-gray-800 shadow-xl rounded-xl relative  max-w-7xl mx-auto">
         {{-- Crear nuevo usuario --}}
-
         @hasanyrole('admin|support')
         <div class=" top-2 xl:left-5  z-50 absolute">
             <x-dropdown align="left">
@@ -29,7 +28,6 @@ $order = ['id' => 'Matrícula', 'name' => 'Nombre', 'lastname' => 'Apellido', 'b
             </x-dropdown>
         </div>
         @endhasanyrole
-
         {{-- Form de búsqueda y filtrado --}}
         <form action="{{ route('users.index') }}" class="m-3 xl:mt-5 mx-auto " id="formSearch">
             <div class=" lg:flex lg:space-x-3 justify-center my-4 xl:w-2/3 mx-auto">
@@ -62,6 +60,7 @@ $order = ['id' => 'Matrícula', 'name' => 'Nombre', 'lastname' => 'Apellido', 'b
                         </x-slot>
                     </x-select>
                 </div>
+                @endhasanyrole
                 <div class="hidden xl:block w-full lg:w-1/3 my-2 lg:my-0">
                     <x-label class="text-lg">Ordernar por</x-label>
                     <x-select name="o" style="-webkit-appearance: none;" id="orderSearch">
@@ -77,7 +76,6 @@ $order = ['id' => 'Matrícula', 'name' => 'Nombre', 'lastname' => 'Apellido', 'b
                         </x-slot>
                     </x-select>
                 </div>
-                @endhasanyrole
             </div>
         </form>
         @if ($users->count())
@@ -88,8 +86,8 @@ $order = ['id' => 'Matrícula', 'name' => 'Nombre', 'lastname' => 'Apellido', 'b
                     </h1>
                 @else
                     <h1 class=" font-bold text-xl xl:text-2xl mt-3 uppercase w-full text-center">LISTADO DE
-                        {{ $roles[request('r')] }}s
-                    </h1>'
+                        {{ $roles[$users[0]->rol()] }}s
+                    </h1>
                 @endif
             </div>
         @endif
@@ -98,10 +96,8 @@ $order = ['id' => 'Matrícula', 'name' => 'Nombre', 'lastname' => 'Apellido', 'b
         <div class=" flex flex-col  w-full items-center justify-center   rounded-lg shadow p-3">
             @if ($users->count())
                 <ul class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 mx-auto  gap-3  ">
-
                     @foreach ($users as $user)
                         <div class="pt-1 px-1">
-
                             <x-list title="{{ $user->fullname }}" image="{{ $user->photo }}"
                                 url="{{ route('users.show', $user) }}"
                                 subtitle="{!! '<b>' . strtoupper($roles[$user->rol()]) . '</b>' !!} {!! '<i>' . optional($user->career)->code . '</i>' !!}" text="nada"
@@ -111,7 +107,6 @@ $order = ['id' => 'Matrícula', 'name' => 'Nombre', 'lastname' => 'Apellido', 'b
                         </div>
                     @endforeach
                     </i>
-
                 </ul>
             @else
                 <h1 class="my-4 text-xl text-black dark:text-gray-300">Sin resultados</h1>

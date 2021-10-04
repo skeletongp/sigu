@@ -8,7 +8,7 @@
                             <x-list title="{!! $subject->section->code .'-'. $subject->day.'-'.$subject->subject->code.
                             '<br>'.$subject->subject->name !!}" image="https://res.cloudinary.com/dboafhu31/image/upload/v1624658165/Download-Computer-512_fp1r3y.png"
                                 url="{{ route('subjects.myteachstudents', $subject) }}"
-                                subtitle="{!! $subject->from .'-'. $subject->finish. '<span>'.$subject->students->count() .' Estudiantes.</span>' !!}" text="nada"
+                                subtitle="{!!$subject->day.' '.$subject->from .'-'. $subject->finish !!}" text="nada"
                                 rDelete=""
                                 rEdit="">
                             </x-list>

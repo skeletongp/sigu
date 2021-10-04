@@ -16,13 +16,17 @@ class userMethods
         request('q') ? $search = request('q') : '';
         $order=request('o');
         $career = request('c');
+        $user=Auth::user();
         Auth::user()->hasAnyRole('admin|support') ? " " : $role = 'student';
         if (request('r')) {
             Auth::user()->hasAnyRole('admin|support') ? $role = request('r') : $role = 'student';
         }
         $users =   User::isRole($role)->career($career)->where('users.id', '!=', 20210001)->search($search)
             ->order($order)->paginate(9)->appends(request()->query());
-        
+        if ($user->rol()=='teacher') {
+            $users=$user->teach_students()->search($search)
+            ->order($order)->paginate(9)->appends(request()->query());
+        }
         return $users;
     }
 

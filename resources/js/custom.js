@@ -56,26 +56,21 @@ $("document").ready(function () {
         });
     });
 
+    /* Open lateral panel */
     $('#rowLeft').click(function(){
         $('#lateral').toggle("slow ",false);
-        console.log($('#role'))
     });
   
+    /* Change user type on adding */
     $('#role').change(function(){
-    
-        if (data=='student') {
-            $('#divCareer').show(300, 'linear');
-            $('#divImage').hide(300, 'linear');
-        } else {
-            $('#divCareer').hide(300, 'linear');
-            $('#divImage').show(300, 'linear');
-        }
+        data=$('#role').val();
+        
+        location.replace('/users/create?role='+data);
     })
 
-    $('#btnAdd').hover(function(){
-        $('#spanText').toggle('',false);
-    })
+  
 
+    /* Darkmode switch */
     $('#toggle').change(function(){
         let status;
         if($(this).is(":checked")){
@@ -101,6 +96,7 @@ $("document").ready(function () {
             console.log(err)
         });;
     })
+
     $('#changeTrimester').change(function(){
        $('#formshow').submit();
 
@@ -109,7 +105,17 @@ $("document").ready(function () {
     $('#roleSearch').change(function(){
         $('#formSearch').submit();
     })
+
     $('#orderSearch').change(function(){
         $('#formSearch').submit();
+    })
+
+    $('.trselection').each(function(){
+        $(this).click(function(){
+            id=$(this).prop('id');
+            $('.'+id).each(function(){
+                $(this).toggle('', false)
+            })
+        })
     })
 });

@@ -39,10 +39,10 @@
                     @if ($sections->count())
                         @foreach ($sections as $section)
                             <x-list :rDelete="route('sections.destroy', $section)"
-                                :rEdit="route('sections.edit', $section)" :url="route('sections.show',$section) "
+                                :rEdit="''" :url="route('sections.show',$section) "
                                 image="https://res.cloudinary.com/dboafhu31/image/upload/v1624658165/Download-Computer-512_fp1r3y.png"
                                 :title="$section->name"
-                                :subtitle="$section->code.optional($section->subjects)->count()">
+                                :subtitle="$section->code.'-'.optional($section->subjects)->count().' Asignaturas'">
                             </x-list>
                         @endforeach
                     @else

@@ -3,10 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\CareerSubject;
-use App\Models\Section;
 use App\Models\SectionSubjectUser;
 use App\Models\Selectiondate;
-use App\Models\Subject;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -115,6 +113,7 @@ class SectionTable extends Component
                 $selDate->save();
             }
         }
+        $this->resetPage();
         return redirect(request()->header('Referer'));
     }
     public function unselect($id)
@@ -129,6 +128,7 @@ class SectionTable extends Component
             $selDate->count = $selDate->count - 1;
             $selDate->save();
         }
+        $this->resetPage();
         return redirect(request()->header('Referer'));
     }
 

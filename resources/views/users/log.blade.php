@@ -27,14 +27,18 @@
                         <div class="space-y-4 flex flex-col justify-end">
                             <div class="flex flex-col space-y-2">
                                 <x-label class="text-lg text-main-70" for="id">Correo</x-label>
-                                <x-input type="email" placeholder="Ingrese su correo" name='email' required />
+                                <x-input id="mat" type="number" placeholder="Ingrese su matrícula" required>
+                                    <x-slot name="icon">
+                                        <span id="span" class="text-sm">{{'@'.substr(request('u'),0,2).config('services.vars.mail_domain')}}</span>
+                                    </x-slot>
+                                </x-input>
+                                <input id="email" type="hidden" name="email" />
                             </div>
                             <div class="flex flex-col space-y-2">
                                 <x-label class="text-lg text-main-70 " for="password">Contraseña</x-label>
                                 <x-input type="password" id="password" placeholder="Ingrese su contraseña"
                                     name='password' required>
                                     <x-slot name="icon">
-
                                         <span id="togglePassword" title="Ver/Ocultar contraseña"
                                             class="fas fa-eye text-blue-400 cursor-pointer"></span>
                                     </x-slot>
@@ -79,5 +83,16 @@
            </div>
         </div>
     </div>
-
+    @push('js')
+        <script>
+            $('document').ready(function(){
+                $('#mat').on('input',function(){
+                span=$('#span').text();
+                hide=$('#email');
+                mat=$(this).val();
+                hide.val(mat+span);
+            })
+            })
+        </script>
+    @endpush
 </x-app>

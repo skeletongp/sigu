@@ -36,6 +36,7 @@ class User extends Authenticatable
     ];
     protected $searchable = [
         'columns' => [
+            'users.id' => 10,
             'users.name' => 10,
             'users.lastname' => 10,
             'users.fullname' => 10,
@@ -108,7 +109,7 @@ class User extends Authenticatable
 
     public function teach_students()
     {
-        return $this->belongsToMany(User::class, 'subject_user', 'teacher_id','user_id');
+        return $this->belongsToMany(User::class, 'subject_user', 'teacher_id','user_id')->where('status','=','coursing');
     }
     public function courses()
     {

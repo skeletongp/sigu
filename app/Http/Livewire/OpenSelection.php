@@ -12,6 +12,7 @@ class OpenSelection extends Component
     public $start;
     public $end;
     public $open=false;
+    public $section;
     public function __construct($career) {
         $this->career = Career::where('slug',$career)->first();
     }

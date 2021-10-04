@@ -34,7 +34,7 @@ class UserController extends Controller
     {
         $user = User::create($request->all());
         $user->password = bcrypt($user->id);
-        $user->email = $user->id . '@' . substr($request->role, 0, 2) . '.sigu.edu.do';
+        $user->email = $user->id . '@' . substr($request->role, 0, 2) . config('services.vars.mail_domain');
         $user->photo = '/images/' . $user->photo;
         $user->save();
         $user->assignRole($request->role);
@@ -69,7 +69,7 @@ class UserController extends Controller
         $user->update($this->methods->update($request));
         if ($request->role) {
             $user->syncRoles([$request->role]);
-            $user->email = $user->id . '@' . substr($user->getRoleNames()[0], 0, 2) . '.sigu.edu.do';
+            $user->email = $user->id . '@' . substr($user->rol(), 0, 2) . config('services.vars.mail_domain');
         }
         $user->save();
         if ($user->getRoleNames()[0] != 'students') {

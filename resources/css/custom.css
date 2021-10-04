@@ -168,4 +168,5 @@ tbody tr:nth-child(odd) {
 
 *{
     scroll-behavior: smooth !important;
+    transition: all .7s ease-in-out;
 }

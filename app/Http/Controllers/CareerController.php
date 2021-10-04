@@ -74,11 +74,13 @@ class CareerController extends Controller
     public function storesubject(Request $request, Career $career)
     {
         $career->subjects()->attach($request->subject, ['trimester'=>$request->trimester]);
-        return redirect()->back();
+        $subjects=Subject::orderby('name')->get();
+        return view('careers.addsubject')->with(['subjects'=>$subjects,'career'=>$career, 'data'=>$request->trimester]);
     }
     public function detachsubject(Career $career, Subject $subject)
     {
         $career->subjects()->detach($subject);
-        return redirect()->back();
+        $subjects=Subject::orderby('name')->get();
+        return view('careers.addsubject')->with(['subjects'=>$subjects,'career'=>$career]);
     }
 }

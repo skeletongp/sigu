@@ -62,7 +62,7 @@
                     value="{{ old('photo', request('photo')) }}" />
             </div>
         </div>
-        <div class="sm:flex items-end  space-y-2 sm:space-y-0 space-x-0 sm:space-x-2  p-1 w-full">
+        <div class="sm:flex items-start  space-y-2 sm:space-y-0 space-x-0 sm:space-x-2  p-1 w-full">
             <div class="sm:w-1/2">
                 <x-label class="text-lg" for="birthday">Fecha de Nacimiento</x-label>
                 <x-input class="w-full" type="date" name='birthday' id="birthday"

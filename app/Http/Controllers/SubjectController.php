@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Auth;
 class SubjectController extends Controller
 {
 
+    public function __construct() {
+        $this->middleware(['role:admin|support'])->only('create','store','edit','update');
+    }
     public function index()
     {
         $subjects = Subject::search(request('q'))->orderby('name')->paginate(6);
@@ -78,7 +81,7 @@ class SubjectController extends Controller
     }
     public function mysubjects()
     {
-        if (Auth::user()->getRoleNames()[0] == 'student') {
+        if (Auth::user()->rol() == 'student') {
             return view('subjects.mysubjects');
         } else {
             $subjects = Auth::user()->teach_sections;
@@ -91,17 +94,17 @@ class SubjectController extends Controller
 
         if (intval($section)) {
             $section = SectionSubjectUser::find($section);
-            $students = $section->students;
+            $search=request('q');
+            $students = optional($section)->students($search);
         } else {
             $section = Subject::where('slug', '=', $section)->first();
-            $students = $section->students;
+            $students = optional($section)->students();
             foreach ($students as $key => $student) {
                 if (!Auth::user()->teach_students->contains($student)) {
                     $students->forget($key);
                 }
             }
         }
-
         return view('subjects.myteachstudents')
             ->with(
                 [
@@ -123,6 +126,6 @@ class SubjectController extends Controller
     {
         $section=SubjectUser::find($request->section);
        $section->update($request->except('condition','section'));
-       return redirect()->back();
+       return redirect()->route('subjects.mysubjects');
     }
 }

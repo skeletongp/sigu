@@ -7,6 +7,7 @@
             <div class="w-full">
                 <form id="formNew" action="{{ route('careers.storesubject', $career) }}" method="POST"
                     enctype="multipart/form-data">
+                    @method('post')
                     @csrf
                     <div>
                         <div class=" sm:flex space-y-2 sm:space-y-0 space-x-0 sm:space-x-2 p-1 w-full">
@@ -15,7 +16,9 @@
                                 <x-select name="subject">
                                     @foreach ($subjects as $subject)
                                         @if (!$career->subjects->contains($subject))
-                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                            <option value="{{ $subject->id }}" >
+                                                {{ $subject->name }}
+                                            </option>
                                         @endif
                                     @endforeach
                                 </x-select>
@@ -24,7 +27,9 @@
                                 <x-label class="text-lg" for="trimester">Trimestre</x-label>
                                 <x-select name="trimester">
                                     @for ($i = 1; $i < $career->trimesters + 1; $i++)
-                                        <option value="{{ $i }}">{{ $i }}º</option>
+                                        <option value="{{ $i }}" {{isset($data)?($data==$i?'selected':''):''}}>
+                                            {{ $i }}º
+                                        </option>
                                     @endfor
                                 </x-select>
                             </div>

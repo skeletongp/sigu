@@ -8,12 +8,9 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
         <div class=" top-2 right-2 xl:right-5 xl:bottom-5 z-50 flex justify-between items-center">
             <x-dropdown align="left">
                 <x-slot name="trigger">
-                    <div id="btnAdd"
-                        class="flex space-x-3 bg-blue-600 text-white rounded-full items-center justify-center cursor-pointer hover:bg-gray-900  w-max px-3 py-1">
-                        <span class="fas fa-eye xl:text-lg"></span>
-                        <input type="text"
-                            class="hidden cursor-pointer bg-transparent outline-none border-none font-bold text-white "
-                            id="spanText" readonly value="Nuevo usuario" />
+                    <div
+                        class=" w-6 h-5 flex p-4 bg-gray-200 dark:bg-gray-700 text-black dark:text-blue-200 rounded-full  items-center justify-center  cursor-pointer hover:bg-gray-400 ">
+                        <span class="fas fa-list text-lg lg:text-xl"></span>
                     </div>
                 </x-slot>
                 <x-slot name="content">

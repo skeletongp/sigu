@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -40,6 +41,10 @@ class Career extends Model
     }
     public function selectiondate()
     {
-       return $this->hasMany(Selectiondate::class);
+        $date = date('Y-m-d H:i:s');
+       return $this->hasMany(Selectiondate::class)
+       ->where('start','<=', $date)
+       ->where('end','>=', $date)
+       ;
     }
 }

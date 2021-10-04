@@ -9,6 +9,8 @@
     @if ($subjects->count() && $sections->count())
         <div class="py-8">
             <h1 class="text-center uppercase font-bold">Guardar asignatura en la sección</h1>
+            <x-input-error class="text-lg w-full my-4 text-center dark:text-red-400" for="error"></x-input-error>
+            {{request('day')}}
             <form action="{{ route('sections.select') }}" method="POST">
                 @csrf
                 <div class="xl:flex xl:space-x-4">
@@ -18,7 +20,9 @@
                             <option value="">Seleccione una asignatura</option>
                             @foreach ($subjects as $subject)
                                 <option value="{{ $subject->id }}"
-                                    {{ optional($sect)->subject_id == $subject->id ? 'selected' : '' }}>
+                                    {{ optional($sect)->subject_id == $subject->id ? 'selected' : '' }}
+                                    {{ request('subject_id') == $subject->id ? 'selected' : '' }}
+                                    >
                                     {{ $subject->name }}</option>
                             @endforeach
                         </x-select>
@@ -29,7 +33,9 @@
                             <option value="">Seleccione una Sección</option>
                             @foreach ($sections as $section)
                                 <option value="{{ $section->id }}"
-                                    {{ optional($sect)->section_id == $section->id ? 'selected' : '' }}>
+                                    {{ optional($sect)->section_id == $section->id ? 'selected' : '' }}
+                                    {{ request('section_id')== $section->id ? 'selected' : '' }}
+                                    >
                                     {{ $section->name }}</option>
                             @endforeach
                         </x-select>
@@ -42,7 +48,9 @@
                         <option value="">Seleccione un docente</option>
                         @foreach ($teachers as $teacher)
                             <option value="{{ $teacher->id }}"
-                                {{ optional($sect)->user_id == $teacher->id ? 'selected' : '' }}>
+                                {{ optional($sect)->user_id == $teacher->id ? 'selected' : '' }}
+                                {{ request('user_id') == $teacher->id ? 'selected' : '' }}
+                                >
                                 {{ $teacher->fullname }}</option>
                         @endforeach
                     </x-select>
@@ -56,7 +64,7 @@
                     <div class="w-1/2 my-4">
                         <x-label for="subject" class="mb-2">Hasta</x-label>
                         <x-input type="time" name="end" placeholder="Hora Final"
-                            value="{{ old('start', optional($sect)->end) }}" required></x-input>
+                            value="{{ old('end', optional($sect)->end) }}" required></x-input>
                         <x-input-error for="end"></x-input-error>
                     </div>
                 </div>
@@ -66,10 +74,12 @@
                         <x-select name="day">
                             <option value="">Día de clases</option>
                             @foreach ($days as $day)
-                                <option value="{{ $day }}" {{ optional($sect)->day == $day ? 'selected' : '' }}>
+                                <option value="{{ $day }}" {{ optional($sect)->day == $day ? 'selected' : '' }}
+                                    {{ request('day') == $day ? 'selected' : '' }}>
                                     {{ $day }}</option>
                             @endforeach
                         </x-select>
+                        <x-input-error for="day"></x-input-error>
                     </div>
                     <div class="w-1/2 my-4">
                         <x-label for="subject" class="mb-2">Cupos</x-label>

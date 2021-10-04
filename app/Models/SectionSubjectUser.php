@@ -39,7 +39,7 @@ class SectionSubjectUser extends Model
     }
     public function section()
     {
-        return $this->belongsTo(Section::class);
+        return $this->belongsTo(Section::class)->withTrashed();
     }
     public function subject()
     {
@@ -51,8 +51,9 @@ class SectionSubjectUser extends Model
     public function getFinishAttribute() {
         return Carbon::parse(substr($this->end, 0, 5))->format('g:i A');
     }
-    public function students()
+    public function students($q='')
     {
-        return $this->belongsToMany(User::class, 'subject_user', 'course_id', 'user_id');
+        return $this->belongsToMany(User::class, 'subject_user', 'course_id', 'user_id')->orderby('lastname')
+        ->search($q)->paginate(9);
     }
 }

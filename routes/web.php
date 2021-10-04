@@ -33,18 +33,18 @@ Route::get('/', function () {
 Route::get('/auth/login', [UserController::class, 'log'])->name('users.log');
 Route::post('/auth/login', [UserController::class, 'login'])->name('users.login');
 Route::get('/auth/logout', [UserController::class, 'logout'])->name('users.logout');
-Route::put('/select/{user}', [UserController::class, 'select'])->name('users.select');
+Route::put('/select/{user}', [UserController::class, 'select'])->middleware(['auth'])->name('users.select');
 Route::post('users/{slug}', [UserController::class, 'show'])->name('users.bytrim');
 Route::resource('users', UserController::class)->middleware(['auth'])->names('users');
-Route::delete('users/unselect/{subject}/{user}', [UserController::class, 'unselect'])->name('users.unselect');
+Route::delete('users/unselect/{subject}/{user}', [UserController::class, 'unselect'])->middleware(['auth'])->name('users.unselect');
 
 /* Rutas de asignaturas */
 Route::get('subjects/mysubjects', [SubjectController::class, 'mysubjects'])->middleware('auth')->name('subjects.mysubjects');
-Route::delete('subjects/detach/{career}/{subject}', [SubjectController::class, 'detach'])->name('subjects.detach');
+Route::delete('subjects/detach/{career}/{subject}', [SubjectController::class, 'detach'])->middleware(['auth'])->name('subjects.detach');
 Route::get('subjects/myteachstudents/{subject}', [SubjectController::class, 'myteachstudents'])->middleware(['auth'])->name('subjects.myteachstudents');
 Route::get('subjects/editnotes', [SubjectController::class, 'editnotes'])->middleware(['auth', 'role:teacher'])->name('subjects.editnotes');
 Route::put('subjects/calificate', [SubjectController::class, 'calificate'])->middleware(['auth', 'role:teacher'])->name('subjects.calificate');
-Route::resource('subjects', SubjectController::class)->middleware(['auth', 'role:admin|support'])->names('subjects');
+Route::resource('subjects', SubjectController::class)->middleware(['auth'])->names('subjects');
 
 /* Rutas de secciones */
 Route::get('sections/selection', [SectionController::class, 'selection'])->middleware(['auth'])->name('sections.selection');

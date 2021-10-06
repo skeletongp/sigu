@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ request('q') ? 'Search: ' . request('q') : config('app.name', 'Laravel') }}</title>
+    <title>{{ request('q') ? 'Search: ' . request('q') : env('APP_NAME', 'Laravel') }}</title>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
@@ -54,7 +54,7 @@
 
         <main
             class="relative h-full overflow-hidden  flex flex-col justify-center py-16 xl:pb-24 bg-white dark:bg-gray-800">
-            <div class=" overflow-y-auto">
+            <div class=" overflow-y-auto px-4 lg:px-2">
                 {{ $slot }}
             </div>
             @if (isset($lateral))
@@ -62,7 +62,7 @@
                     style="min-height: 60vh;  " id="lateral">
                     {{ $lateral }}
                 </div>
-                <div class="fixed bottom-12 right-3 xl:right-6 z-50  cursor-pointer hover:text-blue-400 dark:text-white" >
+                <div class="fixed bottom-12 right-3 xl:right-6 z-50  cursor-pointer hover:text-blue-400 dark:text-white">
                     <div class=" w-12 h-12 rounded-full flex items-center justify-center  ">
                         <span class="fas fa-ellipsis-h text-xl" id="rowLeft"></span>
                     </div>
@@ -73,9 +73,15 @@
 
     </div>
     <footer class="fixed bottom-0 z-40 bg-gray-100 dark:bg-gray-900 w-full">
-        @if (Auth::user())
-            <x-footer></x-footer>
-        @endif
+
+        <x-footer></x-footer>
+        <div class="flex justify-between absolute top-3 w-full text-sm lg:px-8">
+            <span class="">
+                    ©Ismael Contreras, 2021
+                  </span>
+                  <a href="
+                  https://www.ismaeldigitador.com" target="_blank" class="text-blue-400 hover:text-blue-600"> wwww.ismaeldigitador.com</a>
+        </div>
     </footer>
 
     @stack('modals')

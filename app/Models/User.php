@@ -99,7 +99,7 @@ class User extends Authenticatable
     }
     public function teach_subjects()
     {
-        return $this->belongsToMany(Subject::class, 'section_subject_user');
+        return $this->hasMany(SubjectUser::class, 'teacher_id', 'id');
     }
     
     public function teach_sections()

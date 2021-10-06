@@ -3,16 +3,18 @@
     <div class="select-none  flex flex-1 items-center p-4 w-full ">
         @hasanyrole('admin|support')
         <div class="flex  space-x-4 items-center absolute right-2 bottom-2 shadow-xl">
+            @role('admin')
             <form action="{{ $rDelete }}" class=" " method="post">
                 @csrf
                 @method('delete')
                 <button class="fas fa-times text-red-500 hover:text-red-400 cursor-pointer"
                     onclick="return confirm('¿Eliminar registro?')"></button>
             </form>
-            @if ($rEdit!='')
-            <a href="{{ $rEdit }}" class="  text-sm">
-                <span class="fas fa-pen text-blue-500 hover:text-blue-400 cursor-pointer"></span>
-            </a>
+            @endrole
+            @if ($rEdit != '')
+                <a href="{{ $rEdit }}" class="  text-sm">
+                    <span class="fas fa-pen text-blue-500 hover:text-blue-400 cursor-pointer"></span>
+                </a>
             @endif
         </div>
         @endhasanyrole

@@ -1,8 +1,10 @@
     <div class="bg-gray-200 dark:bg-gray-700  py-3 w-full h-12 absolute  flex justify-between z-50">
         <nav class="max-w-7xl w-full flex items-center justify-between mx-auto h-full px-4">
             <div class="hidden sm:flex justify-between space-x-3">
-                <x-nav-link href="{{ route('home') }}" class="text-xl cursor-pointer "
-                    :active="request()->routeIs('home')">Home
+                <x-nav-link href="{{ route('home') }}" class="text-xl cursor-pointer">
+                    <div class="w-10 h-10 rounded-full bg-black bg-cover bg-center flex justify-center items-center" >
+                        <span class="fas fa-home text-white"></span>
+                    </div>
                 </x-nav-link>
 
             </div>
@@ -23,7 +25,7 @@
                 </div>
             </div>
     </div>
-    <x-dropdown contentClasses="w-max bg-white px-2 lg:text-lg font-semibold">
+    <x-dropdown contentClasses="w-max bg-white pr-2 lg:text-lg font-semibold">
         <x-slot name="trigger">
             <div class="flex items-center space-x-2 cursor-pointer">
                 <div class="w-10 h-10 rounded-full bg-cover bg-no-repeat bg-center"
@@ -32,38 +34,61 @@
                 <span class="fas fa-angle-down"></span>
             </div>
         </x-slot>
-        <x-slot name="content" >
-                <x-dropdown-link
-                    class=" font-bold text-center bg-gray-900 text-blue-400 hover:bg-gray-800 hover:text-white -mt-2 -mx-2"
-                    href="
-                    {{ route('users.show', Auth::user()) }}">{{ Auth::user()->fullname }}
-                </x-dropdown-link>
-                <hr>
-                <x-dropdown-link class="" href=" {{ route('users.show', Auth::user()) }}">Perfil
-                </x-dropdown-link>
-                @role('admin')
-                <x-dropdown-link href="{{ route('users.index') }}">Gestionar Usuarios</x-dropdown-link>
-                @endrole
-                @hasanyrole('support|teacher')
-                <x-dropdown-link href="{{ route('users.index') }}">Lista de Usuarios</x-dropdown-link>
-                @endhasanyrole
-                @hasanyrole('admin|support')
-                <x-dropdown-link href="{{ route('careers.index') }}">Gestionar Carreras</x-dropdown-link>
-                <x-dropdown-link href="{{ route('subjects.index') }}">Gestionar Asignaturas</x-dropdown-link>
-                <x-dropdown-link href="{{ route('sections.index') }}">Gestionar Secciones</x-dropdown-link>
+        <x-slot name="content">
+            <x-dropdown-link
+                class=" font-bold text-center bg-gray-900 text-blue-400 hover:bg-gray-800 hover:text-white -mt-2 -mx-2"
+                href="
+                    {{ route('users.show', Auth::user()) }}">
+                    <div class="flex flex-col">
+                        <span>{{ Auth::user()->fullname }}</span>
+                        <span class="text-xs">{{ Auth::user()->role() }}</span>
+                    </div>
+            </x-dropdown-link>
+            <hr>
+            <x-dropdown-link class="flex space-x-5" href=" {{ route('users.show', Auth::user()) }}">
+                <span>Mi Perfil</span>
+            </x-dropdown-link>
 
-                @endhasanyrole
-                @hasanyrole('student|teacher')
-                <x-dropdown-link href="{{ route('subjects.mysubjects') }}">Mi Horario</x-dropdown-link>
-                @endhasanyrole
-                @role('student')
-                <x-dropdown-link href="{{ route('careers.show', Auth::user()->career) }}">Mi Carrera
+            @hasanyrole('teacher')
+            <x-dropdown-link class="flex space-x-4" href="{{ route('users.index') }}">
+                <span>Lista de Usuarios</span>
+            </x-dropdown-link>
+            @endhasanyrole
+            @hasanyrole('admin|support')
+            <x-dropdown-link class="flex space-x-5" href="{{ route('users.index') }}">
+                <span>Gestionar Usuarios</span>
+            </x-dropdown-link>
+            <x-dropdown-link class="flex space-x-5" href="{{ route('careers.index') }}">
+                <span> Gestionar Carreras</span>
+            </x-dropdown-link>
+            <x-dropdown-link class="flex space-x-5" href="{{ route('subjects.index') }}">
+                <span>Gestionar Asignaturas</span>
+            </x-dropdown-link>
+            <x-dropdown-link class="flex space-x-5" href="{{ route('sections.index') }}">
+                <span>Gestionar Secciones</span>
+            </x-dropdown-link>
+            <x-dropdown-link class="flex space-x-5" href="{{ route('sections.selection') }}">
+                <span>Horarios</span>
+            </x-dropdown-link>
+            @endhasanyrole
+            @hasanyrole('student|teacher')
+            <x-dropdown-link class="flex space-x-5" href="{{ route('subjects.mysubjects') }}">
+                <span>Mi Horario</span>
+            </x-dropdown-link>
+            @endhasanyrole
+            @role('student')
+            <x-dropdown-link class="flex space-x-5" href="{{ route('careers.show', Auth::user()->career) }}">
+                <span>Mi Carrera</span>
+            </x-dropdown-link>
+            @if (Auth::user()->career->selectiondate->count() && Auth::user()->subjects->count() < 3)
+                <x-dropdown-link class="flex space-x-5" href="{{ route('sections.selection') }}">
+                    <span>Selección</span>
                 </x-dropdown-link>
-                @if (Auth::user()->career->selectiondate->count() && Auth::user()->subjects->count() < 3)
-                    <x-dropdown-link href="{{ route('sections.selection') }}">Selección</x-dropdown-link>
-                @endif
-                @endrole
-                <x-dropdown-link href="{{ route('users.logout') }}">Salir</x-dropdown-link>
+            @endif
+            @endrole
+            <x-dropdown-link class="flex space-x-5" href="{{ route('users.logout') }}">
+                <span>Salir</span>
+            </x-dropdown-link>
         </x-slot>
     </x-dropdown>
 

@@ -48,12 +48,13 @@ class Subject extends Model
     }
     public function sections()
     {
-        return $this->belongsToMany(Section::class, 'section_subject_user')->withPivot('start','end','quota');
+        return $this->belongsToMany(User::class, 'subject_user','subject_id','user_id') ;
     }
-    public function teacher()
+    public function section()
     {
-        return $this->belongsToMany(User::class, 'section_subject_user','user_id')->withPivot('start','end','quota');
+        return $this->belongsToMany(SubjectUser::class, 'section_subject_user','subject_id', 'subject_id')->withPivot('start','end','quota')->first();
     }
+   
     
    
 }

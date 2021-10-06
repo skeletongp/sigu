@@ -8,31 +8,31 @@
                 @method('put')
                 @csrf
                 <div class="flex flex-col items-end space-x-2  p-4 w-full">
-                    <div class="grid grid-cols-2 grid-rows-3 w-full gap-6 items-end ">
+                    <div class="grid grid-cols-2 grid-rows-3 w-full gap-6 items-start ">
                         <div class="">
                             <x-label for=" ap">Act. Prácticas</x-label>
                             <x-input name="ap" id="ap" type="number" min="0" max="25" placeholder="Rango de 0-25"
-                                required value="{{old('ap',$section->ap)}}">
+                                 value="{{old('ap',$section->ap)}}">
                             </x-input>
                             <x-input-error for="ap"></x-input-error>
                         </div>
                         <div class="">
                             <x-label for=" poe">Participación O/E</x-label>
                             <x-input name="poe" id="poe" type="number" min="0" max="10" placeholder="Rango de 0-10"
-                                required value="{{old('poe',$section->poe)}}">
+                                 value="{{old('poe',$section->poe)}}">
                             </x-input>
                             <x-input-error for="poe"></x-input-error>
                         </div>
                         <div class="">
                             <x-label for=" pf">Práctica Final</x-label>
                             <x-input name="pf" id="pf" type="number" min="0" max="15" placeholder="Rango de 0-15"
-                                required value="{{old('pf',$section->pf)}}">
+                                 value="{{old('pf',$section->pf)}}">
                             </x-input>
                             <x-input-error for="pf"></x-input-error>
                         </div>
                         <div class="">
                             <x-label for=" ef">Prueba Final</x-label>
-                            <x-input name="ef" id="ef" type="number" max="50" placeholder="Rango de 0-50" required value="{{old('ef',$section->ef)}}">
+                            <x-input name="ef" id="ef" type="number" max="50" placeholder="Rango de 0-50" value="{{old('ef',$section->ef)}}">
                             </x-input>
                             <x-input-error for="ef"></x-input-error>
                         </div>

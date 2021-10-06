@@ -26,7 +26,7 @@ Route::get('/', function () {
     if (!Auth::user()) {
         return view('welcome');
     }
-    return redirect()->back();
+    return redirect()->route('home');
 })->name('welcome');
 
 //Rutas de usuarios
@@ -37,6 +37,8 @@ Route::put('/select/{user}', [UserController::class, 'select'])->middleware(['au
 Route::post('users/{slug}', [UserController::class, 'show'])->name('users.bytrim');
 Route::resource('users', UserController::class)->middleware(['auth'])->names('users');
 Route::delete('users/unselect/{subject}/{user}', [UserController::class, 'unselect'])->middleware(['auth'])->name('users.unselect');
+Route::get('users.aplicate',[UserController::class,'aplicate'])->name('users.aplicate');
+Route::post('users.sendadmision',[UserController::class,'sendadmision'])->name('users.sendadmision');
 
 /* Rutas de asignaturas */
 Route::get('subjects/mysubjects', [SubjectController::class, 'mysubjects'])->middleware('auth')->name('subjects.mysubjects');
@@ -58,4 +60,6 @@ Route::post('/careers/storesubject/{career}', [CareerController::class, 'storesu
 Route::resource('careers', CareerController::class)->middleware(['auth'])->names('careers');
 
 /* Fechas de selección */
-Route::resource('selectiondates', SelectiondateController::class)->middleware(['auth', 'role:admin|support|teacher'])->names('selectiondates');
+Route::resource('selectiondates', SelectiondateController::class)->middleware(['auth', 'role:admin|support'])->names('selectiondates');
+
+

@@ -22,10 +22,10 @@ class userMethods
             Auth::user()->hasAnyRole('admin|support') ? $role = request('r') : $role = 'student';
         }
         $users =   User::isRole($role)->career($career)->where('users.id', '!=', 20210001)->search($search)
-            ->order($order)->paginate(9)->appends(request()->query());
+            ->order($order)->paginate(8)->appends(request()->query());
         if ($user->rol()=='teacher') {
             $users=$user->teach_students()->search($search)
-            ->order($order)->paginate(9)->appends(request()->query());
+            ->order($order)->paginate(8)->appends(request()->query());
         }
         return $users;
     }

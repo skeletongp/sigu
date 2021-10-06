@@ -54,6 +54,7 @@
     <div class="max-w-7xl mx-4 xl:mx-auto my-3 grid grid-cols-1 md:grid-cols-2 grid-flow-row gap-2">
         @foreach ($trimsubjects as $trimester)
 
+           <div class="bg-gray-600 rounded-xl pr-1">
             <x-trimester :trimester="$trimester[0]->pivot->trimester.'º Trimestre'">
                 <div class="text-gray-600 dark:text-gray-200 text-sm">
                     <li class="grid grid-cols-8 uppercase mb-2 text-gray-500 dark:text-blue-300 text-left">
@@ -97,6 +98,7 @@
                     <span>Total {{ $trimester->sum('credits') }} Crds.</span>
                 </div>
             </x-trimester>
+           </div>
 
         @endforeach
     </div>

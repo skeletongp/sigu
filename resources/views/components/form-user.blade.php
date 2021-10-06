@@ -2,6 +2,12 @@
     @csrf
     @method($method)
     <div class="dark:bg-gray-800">
+        <x-input-error for="fullname" class="dark:text-red-200">
+            <div class="flex space-x-2 items-center">
+                <span class="fas fa-exclamation"></span>
+                <span>Ya hay un usuario con nombre exactamente igual</span>
+            </div>
+        </x-input-error>
         <div class=" sm:flex space-y-2 sm:space-y-0 space-x-0 sm:space-x-2 p-1 w-full ">
             <div class="sm:w-1/2">
                 <x-label class="text-lg" for="name">Nombre</x-label>

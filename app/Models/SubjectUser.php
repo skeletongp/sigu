@@ -16,8 +16,17 @@ class SubjectUser extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function teacher()
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
     public function subject()
     {
-        return $this->belongsTo(Subject::class,'subject_id');
+        return $this->hasOne(Subject::class,'id');
     }
+    public function section()
+    {
+        return $this->belongsto(SectionSubjectUser::class, 'course_id')->withTrashed();
+    }
+   
 }

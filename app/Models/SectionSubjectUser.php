@@ -37,10 +37,7 @@ class SectionSubjectUser extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-    public function section()
-    {
-        return $this->belongsTo(Section::class)->withTrashed();
-    }
+    
     public function subject()
     {
         return $this->belongsTo(Subject::class);
@@ -55,5 +52,9 @@ class SectionSubjectUser extends Model
     {
         return $this->belongsToMany(User::class, 'subject_user', 'course_id', 'user_id')->orderby('lastname')
         ->search($q)->paginate(9);
+    }
+    public function section()
+    {
+        return $this->belongsTo(Section::class)->withTrashed();
     }
 }

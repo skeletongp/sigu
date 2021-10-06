@@ -105,14 +105,6 @@ $("document").ready(function () {
   $('#orderSearch').change(function () {
     $('#formSearch').submit();
   });
-  $('.trselection').each(function () {
-    $(this).click(function () {
-      id = $(this).prop('id');
-      $('.' + id).each(function () {
-        $(this).toggle('', false);
-      });
-    });
-  });
 });
 /******/ })()
 ;

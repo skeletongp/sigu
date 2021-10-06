@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Methods\userMethods;
 use App\Jobs\Clean;
+use App\Mail\AdmisionMailable;
 use App\Models\Subject;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -17,7 +19,9 @@ class UserController extends Controller
     public function __construct()
     {
         $this->methods = new userMethods();
-        $this->middleware(['role:admin'])->except('login', 'logout', 'log', 'index', 'show', 'api_users', 'darkmode');
+        $this->middleware(['role:admin|support'])->except('login', 'logout', 'log', 'index', 'show', 'api_users', 'darkmode',
+    'sendadmision','aplicate');
+    $this->middleware(['role:admin'])->only('edit','update','destroy');
     }
     public function index()
     {
@@ -117,6 +121,18 @@ class UserController extends Controller
         $user->darkmode = $request->mode;
         $user->save();
         return $request->all();
+    }
+
+    public function aplicate()
+    {
+        $careers=Career::get();
+        return view('users.aplicate')
+        ->with(['careers'=>$careers]);
+    }
+    public function sendadmision(Request $request)
+    {
+        Mail::to('2021@ad.sigu.edu.do')->send(new AdmisionMailable($request));
+        return view('users.thanks');
     }
 
     //Functions Auth

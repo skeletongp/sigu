@@ -84,7 +84,7 @@ class SubjectController extends Controller
         if (Auth::user()->rol() == 'student') {
             return view('subjects.mysubjects');
         } else {
-            $subjects = Auth::user()->teach_sections;
+            $subjects = Auth::user()->teach_sections()->orderby('subject_id')->paginate(6);
             return view('subjects.myteachsubjects')
                 ->with(['subjects' => $subjects]);
         }

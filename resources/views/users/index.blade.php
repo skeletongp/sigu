@@ -29,7 +29,7 @@ $order = ['id' => 'Matrícula', 'name' => 'Nombre', 'lastname' => 'Apellido', 'b
         </div>
         @endhasanyrole
         {{-- Form de búsqueda y filtrado --}}
-        <form action="{{ route('users.index') }}" class="m-3 xl:mt-5 mx-auto " id="formSearch">
+        <form action="" class="m-3 xl:mt-5 mx-auto " id="formSearch">
             <div class=" lg:flex lg:space-x-3 justify-center my-4 xl:w-2/3 mx-auto">
                 <div class="w-full lg:w-1/3">
                     <x-label class="text-lg ">Buscar</x-label>
@@ -95,7 +95,7 @@ $order = ['id' => 'Matrícula', 'name' => 'Nombre', 'lastname' => 'Apellido', 'b
         {{-- Listado de datos --}}
         <div class=" flex flex-col  w-full items-center justify-center   rounded-lg shadow p-3">
             @if ($users->count())
-                <ul class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 mx-auto  gap-3  ">
+                <ul class="grid grid-cols-1 sm:grid-cols-2  max-w-4xl mx-auto  gap-3  ">
                     @foreach ($users as $user)
                         <div class="pt-1 px-1">
                             <x-list title="{{ $user->fullname }}" image="{{ $user->photo }}"

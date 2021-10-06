@@ -39,7 +39,7 @@
 
                 </ul>
             @else
-                <h1 class="my-4 text-xl text-black">Sin resultados</h1>
+                <h1 class="my-4 text-xl text-center font-bold select-none uppercase w-full lg:text-2xl">Sin resultados</h1>
             @endif
         </div>
         <div class=" my-3 max-w-7xl mx-auto">

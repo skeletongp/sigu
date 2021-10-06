@@ -9,7 +9,9 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
         </div>
         @endhasanyrole
         <div class=" absolute top-3 left-3">
-            <a class="text-blue-400 flex items-center space-x-2" href="{{ route('users.index', ['r'=>$user->rol()]) }}"><span class="fas fa-angle-left "></span> <span class="text-sm font-semibold">Regregar</span></a>
+            <a class="text-blue-400 flex items-center space-x-2"
+                href="{{ route('users.index', ['r' => $user->rol()]) }}"><span class="fas fa-angle-left "></span> <span
+                    class="text-sm font-semibold">Regregar</span></a>
         </div>
         <div class="sm:grid grid-cols-6 gap-6 h-72 sm:h-60 ">
             <div class="sm:col-span-2 flex flex-col items-center justify-center">
@@ -26,10 +28,9 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
                         @if ($user->teach_students->count())
                             <h2>{{ $user->teach_students->groupby('id')->count() }} Estudiantes</h2>
                         @endif
-                        @if ($user->teach_subjects->count())
-                            <h2>{{ $user->teach_subjects->count() }} Secciones</h2>
-                        @endif
+
                     </div>
+
 
                 </div>
             </div>
@@ -40,7 +41,24 @@ $roles = ['admin' => 'Admin', 'support' => 'Soporte', 'teacher' => 'Docente', 's
     <div class="max-w-4xl mx-auto">
         <x-students-subjects :id="$user->id" :user="$user" :trim="$trim"></x-students-subjects>
     </div>
+    <div class="max-w-4xl mx-auto">
+        @if ($user->teach_subjects->count())
+            <h2>{{ $user->teach_sections->count() }} Secciones</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 mx-auto   gap-3">
+                @foreach ($user->teach_sections as $subj)
+                    
+                    <x-list title="{{ $subj->subject->code . '-' . $subj->subject->name }}" :key="$subj->id"
+                        image="https://cdn3.iconfinder.com/data/icons/ballicons-reloaded-vol-1/512/icon-13-512.png"
+                        url="{{ route('subjects.show', $subj->subject) }}"
+                        subtitle="{{ $subj->section->code . ': ' . $subj->day . '->' . $subj->from . '-' . $subj->finish }}"
+                        text="nada" rDelete="{{ route('subjects.destroy', $subj) }}"
+                        rEdit="{{ route('subjects.edit', $subj) }}">
+                    </x-list>
 
+                @endforeach
+            </div>
+        @endif
+    </div>
 
     <x-slot name="lateral">
     </x-slot>

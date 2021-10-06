@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+/* Muestro las secciones paginadas y
+ordenadas por el subject_id
+Muestro las materias por secciones agrupadas
+ */
 
 class SectionTable extends Component
 {
@@ -50,7 +54,8 @@ class SectionTable extends Component
                 $sections = SectionSubjectUser::with('teacher', 'section', 'subject')
                     ->whereIn('subject_id', $ids)
                     ->where('quota', '>', 0)
-                    ->search($this->search)->paginate(6);
+                    ->orderby('subject_id')
+                    ->paginate(4);
             }
             /* Si se pide las que sí tiene y el usuario ha inscrito materias */
             if ($this->having && $sub_user->count()) {
@@ -66,13 +71,15 @@ class SectionTable extends Component
                 $sections = SectionSubjectUser::with('teacher', 'section', 'subject')
                     ->whereIn('subject_id', $ids)
                     ->whereIn('section_subject_user.id', $id_course)
-                    ->search($this->search)->paginate(6);
+                    ->orderby('subject_id')
+                    ->search($this->search)->paginate(4);
             }
         } else {
             /* Si es un admin o un support, simplemente trae todas las asignaturas con cupo */
             $sections = SectionSubjectUser::with('teacher', 'section', 'subject')
                 ->where('quota', '>', 0)
-                ->search($this->search)->paginate(6);
+                ->orderby('subject_id')
+                ->search($this->search)->paginate(4);
         }
         return view('livewire.section-table')->with(['sections' => $sections, 'career' => $career]);
     }

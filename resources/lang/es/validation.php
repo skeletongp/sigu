@@ -178,6 +178,7 @@ return [
         'concept'=>"Concepto",
         'cant'=>"Cantidad",
         'code'=>"Código",
+        'fullname'=>"Nombre y Apellido",
     ],
 
 ];

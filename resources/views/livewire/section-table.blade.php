@@ -41,17 +41,19 @@
                             @php
                                 $subjects = $sections->groupby('subject_id');
                             @endphp
-                            <tbody class="dark:bg-gray-800 divide-y divide-gray-200 text-center lg:text-lg">
+                            <tbody class="dark:bg-gray-800 divide-y divide-gray-200 text-center text-sm lg:text-lg">
                                 @foreach ($subjects as $subject)
                                     <tr class="bg-gray-800 cursor-pointer trselection" id="tr{{ $subject[0]->id }}">
                                         <td colspan="3" class="text-left pl-2 uppercase text-blue-400 font-bold py-2">
-                                            <span>{{ $subject[0]->subject->name }}</span>
+                                            <a href="{{route('subjects.show',$subject[0]->subject)}}">
+                                                <h1>{{ $subject[0]->subject->name }}</h1>
+                                            </a>
                                         </td>
                                         <td colspan="2" class="text-center uppercase px-1 text-blue-400 font-bold py-2">
-                                            <span
-                                                class="">{{ $subject[0]->subject->credits }}
-                                            Créditos
-                                        </span>
+                                            <a href="{{route('subjects.show',$subject[0]->subject)}}">
+                                                <h1 class="">{{ $subject[0]->subject->credits }} Créditos </h1>
+                                            </a>
+                                          
                                         </td>
                                     </tr>
                                     @foreach ($subject as $section)
@@ -68,7 +70,7 @@
                                         <td class="px-2 py-2 whitespace-nowrap">
                                             <div class="flex items-center space-x-2">
                                                 @hasanyrole('admin|support')
-                                                <div class="flex flex-col space-y-1">
+                                                <div class="flex space-x-3 text-sm">
                                                     <button
                                                         onclick="confirm('Eliminar del horario') || event.preventDefault()"
                                                         wire:click="delete({{ $subject }})">
@@ -102,7 +104,7 @@
                                             {{ $role == 'student' ? ($course ? $status[$course->status][0] : 'Disponible') : $section->quota }}
                                         </td>
                                         <td class="px-6 py-2 whitespace-nowrap ">
-                                            {{ $section->teacher->fullname }}
+                                          <a href="{{route('users.show', $section->teacher)}}">  {{ $section->teacher->fullname }}</a>
                                         </td>
                                         @role('student')
                                         @if (!$hide_button)

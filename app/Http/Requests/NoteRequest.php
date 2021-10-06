@@ -13,6 +13,10 @@ class NoteRequest extends FormRequest
 
     public function prepareforvalidation()
     {   
+        $this->ap?: $this->request->add(['ap'=>0]);
+        $this->poe?: $this->request->add(['poe'=>0]);
+        $this->pf?: $this->request->add(['pf'=>0]);
+        $this->ef?: $this->request->add(['ef'=>0]);
         $nf=$this->ap+$this->poe+$this->pf+$this->ef;
         $this->request->add(['nf'=>$nf]);
         $condition=$this->condition;
@@ -27,11 +31,11 @@ class NoteRequest extends FormRequest
     public function rules()
     {
         return [
-            'ap'=>'required|numeric|between:0,25',
-            'poe'=>'required|numeric|between:0,10',
-            'pf'=>'required|numeric|between:0,15',
-            'ef'=>'required|numeric|between:0,50',
-            'nf'=>'required|numeric|between:0,100',
+            'ap'=>'numeric|between:0,25',
+            'poe'=>'numeric|between:0,10',
+            'pf'=>'numeric|between:0,15',
+            'ef'=>'numeric|between:0,50',
+            'nf'=>'numeric|between:0,100',
         ];
     }
 }

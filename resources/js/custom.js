@@ -110,12 +110,4 @@ $("document").ready(function () {
         $('#formSearch').submit();
     })
 
-    $('.trselection').each(function(){
-        $(this).click(function(){
-            id=$(this).prop('id');
-            $('.'+id).each(function(){
-                $(this).toggle('', false)
-            })
-        })
-    })
 });

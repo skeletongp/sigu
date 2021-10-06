@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
             'id'=>20210001
 
         ]);
-        $admin->email = $admin->id . @'ad'.config('services.vars.mail_domain');
+        $admin->email = $admin->id . '@ad'.config('services.vars.mail_domain');
         $admin->password = bcrypt($admin->id);
         $admin->slug = Str::slug($admin->name . ' ' . $admin->lastname);
         $admin->fullname = $admin->name . ' ' . $admin->lastname;
@@ -37,43 +37,34 @@ class DatabaseSeeder extends Seeder
 
         $admin->save();
         $admin->assignRole('admin');
-        \App\Models\Career::factory(5)->create();
+        \App\Models\Career::factory(6)->create();
         \App\Models\User::factory(12)->create()->each(function ($user) {
-            $num=random_int(0,419);
-            $path=DB::connection('mysql2')->table('photos')->where('num', $num)->first();
             $user->assignRole('teacher');
             $user->password = bcrypt($user->id);
             $user->fullname = $user->name . ' ' . $user->lastname;
-            $user->email = $user->id . @'te'.config('services.vars.mail_domain');
-            $user->photo = asset('x250/'.$path->path);
+            $user->email = $user->id . '@te'.config('services.vars.mail_domain');
+            $user->photo = '/images/profile.png';
             $user->save();
-            $num>420?$num==-1:'';
-            $num++;
+            
         });
         \App\Models\User::factory(5)->create()->each(function ($user) {
-            $num=random_int(0,419);
-            $path=DB::connection('mysql2')->table('photos')->where('num', $num)->first();
             $user->assignRole('support');
             $user->password = bcrypt($user->id);
             $user->fullname = $user->name . ' ' . $user->lastname;
-            $user->email = $user->id . @'su'.config('services.vars.mail_domain');
-            $user->photo = asset('x250/'.$path->path);
+            $user->email = $user->id . '@su'.config('services.vars.mail_domain');
+            $user->photo = '/images/profile.png';
             $user->save();
-            $num>420?$num==-1:'';
-            $num++;
+           
         });
         \App\Models\User::factory(250)->create()->each(function ($user) {
-            $num=random_int(0,419);
-            $path=DB::connection('mysql2')->table('photos')->where('num', $num)->first();
             $user->assignRole('student');
             $user->password = bcrypt($user->id);
             $user->fullname = $user->name . ' ' . $user->lastname;
-            $user->email = $user->id . @'st'.config('services.vars.mail_domain');
+            $user->email = $user->id . '@st'.config('services.vars.mail_domain');
             $user->career_id = random_int(1, 5);
-            $user->photo = asset('x250/'.$path->path);
+            $user->photo ='/images/profile.png';
             $user->save();
-            $num>420?$num==-1:'';
-            $num++;
+
         });
     }
 }

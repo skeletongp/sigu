@@ -15,7 +15,7 @@ class CreateCareersTable extends Migration
     {
         Schema::create('careers', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name', '255')->unique();
             $table->string('slug');
             $table->string('code')->unique();
             $table->integer('trimesters');

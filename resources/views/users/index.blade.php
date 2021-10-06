@@ -32,7 +32,7 @@ $order = ['id' => 'Matrícula', 'name' => 'Nombre', 'lastname' => 'Apellido', 'b
         <form action="" class="m-3 xl:mt-5 mx-auto " id="formSearch">
             <div class=" lg:flex lg:space-x-3 justify-center my-4 xl:w-2/3 mx-auto">
                 <div class="w-full lg:w-1/3">
-                    <x-label class="text-lg ">Buscar</x-label>
+                    <x-label class="text-lg ">Buscar usuario</x-label>
                     <x-input type="search" class="w-full" placeholder="Término de búsqueda" name="q"
                         value="{{ old('q', request('q')) }}" autocomplete>
                         <x-slot name="icon">

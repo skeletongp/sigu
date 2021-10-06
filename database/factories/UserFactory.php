@@ -21,7 +21,6 @@ class UserFactory extends Factory
             'lastname' => $lastname,
             'slug'=>Str::slug($name.' '.$lastname,'-'),
             'birthday'=>$this->faker->date('Y-m-d','2000-12-31'),
-            'photo'=>$this->faker->imageUrl(480,480),
             'remember_token' => Str::random(10),
         ];
     }

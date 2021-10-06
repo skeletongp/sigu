@@ -15,31 +15,37 @@ class CareerFactory extends Factory
     {
         $names = [
             1 => [
+                'id'=>1,
                 'name' => 'Ingeniería de Software',
                 'code' => 'ISW',
                 'trimesters'=>12
             ],
             2 => [
+                'id'=>2,
                 'name' => 'Psicología Escolar',
                 'code' => 'PSS',
                 'trimesters'=>12
             ], 
-            2 => [
+            3 => [
+                'id'=>3,
                 'name' => 'Psicología Clínica',
                 'code' => 'PSC',
                 'trimesters'=>12
             ], 
-            3 => [
+            4 => [
+                'id'=>4,
                 'name' => 'Licenciatura en Derecho',
                 'code' => 'DER',
                 'trimesters'=>12
             ], 
-            4 => [
+            5 => [
+                'id'=>5,
                 'name' => 'Licenciatura en Agrimensura',
                 'code' => 'AGR',
                 'trimesters'=>12
             ], 
-            5 => [
+            6 => [
+                'id'=>6,
                 'name' => 'Informática Gerencial',
                 'code' => 'IFG',
                 'trimesters'=>12
@@ -48,6 +54,7 @@ class CareerFactory extends Factory
         $career=$names[$this->num];
         $this->num++;
         return [
+            'id'=>$career['id'],
             'name'=>$career['name'],
             'code'=>$career['code'],
             'trimesters'=>$career['trimesters'],

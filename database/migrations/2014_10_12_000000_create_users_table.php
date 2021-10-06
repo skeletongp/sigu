@@ -19,12 +19,13 @@ class CreateUsersTable extends Migration
             $table->string('lastname', 50);
             $table->string('fullname', 100)->nullable();
             $table->string('slug')->nullable();
-            $table->enum('darkmode',['Y','N'])->default('N');
+            $table->enum('darkmode', ['Y', 'N'])->default('N');
             $table->string('photo')->nullable();
-            $table->string('email')->nullable()->unique();
+            $table->string('email')->nullable()->unique()->collation('utf8_unicode_ci');
             $table->date('birthday');
             $table->foreignId('career_id')->nullable()->constrained();
             $table->string('password')->nullable();
+           
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
